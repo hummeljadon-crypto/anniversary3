@@ -1,0 +1,3375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#050814" />
+  <title>The Willow Beyond the Moon — V7</title>
+
+  <style>
+    :root {
+      --bg-1: #02040d;
+      --bg-2: #07101a;
+      --bg-3: #0a1715;
+      --water-1: #0c2431;
+      --water-2: #173f52;
+      --silver: #eaf1f7;
+      --moon: #fff6d8;
+      --gold: #d8b46a;
+      --sage: #b7d0b5;
+      --moss: #69896b;
+      --bark: #5f4128;
+      --bark-deep: #24150d;
+      --paper: #fff3dc;
+      --ink: #31241c;
+      --mist: rgba(235, 242, 248, 0.72);
+      --line: rgba(255,255,255,0.16);
+      --soft: rgba(255,255,255,0.08);
+      --soft-2: rgba(255,255,255,0.05);
+      --shadow: rgba(0,0,0,0.42);
+      --shadow-heavy: rgba(0,0,0,0.62);
+      --aurora-a: rgba(133, 242, 205, 0.20);
+      --aurora-b: rgba(176, 203, 255, 0.18);
+      --aurora-c: rgba(215, 178, 255, 0.14);
+      --pink: #e8bfd2;
+      --rose: #cb95ad;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      background: linear-gradient(180deg, var(--bg-1), var(--bg-2) 52%, #03110e 100%);
+      color: var(--silver);
+      font-family: Georgia, "Times New Roman", serif;
+      overflow-x: hidden;
+    }
+
+    body.locked {
+      overflow: hidden;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+      white-space: nowrap;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 0.96;
+      letter-spacing: -0.055em;
+      text-wrap: balance;
+      color: var(--moon);
+    }
+
+    h1 {
+      font-size: clamp(3rem, 17vw, 7.2rem);
+      text-shadow: 0 0 34px rgba(255, 246, 216, 0.22);
+    }
+
+    h2 {
+      font-size: clamp(2.2rem, 11vw, 4.8rem);
+      text-shadow: 0 0 28px rgba(255, 246, 216, 0.10);
+    }
+
+    h3 {
+      font-size: clamp(1.35rem, 7vw, 2rem);
+      letter-spacing: -0.03em;
+    }
+
+    p {
+      font-size: clamp(1.02rem, 4.6vw, 1.18rem);
+      line-height: 1.75;
+      color: rgba(234,241,247,0.83);
+      margin: 0;
+    }
+
+    .eyebrow {
+      margin: 0 0 1rem;
+      color: rgba(255,246,216,0.68);
+      text-transform: uppercase;
+      letter-spacing: 0.34em;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 800;
+      font-size: 0.68rem;
+    }
+
+    .center {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .narrow {
+      max-width: 540px;
+    }
+
+    .section-copy {
+      width: min(100%, 760px);
+      position: relative;
+      z-index: 4;
+    }
+
+    .section-copy.center {
+      width: min(100%, 800px);
+    }
+
+    .soft-panel {
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.10), transparent 10rem),
+        linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.045));
+      backdrop-filter: blur(16px);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.34);
+    }
+
+    .pill-btn,
+    .icon-btn,
+    .music-toggle,
+    .secret-star {
+      appearance: none;
+      border: 1px solid rgba(255,246,216,0.22);
+      background:
+        radial-gradient(circle at 28% 18%, rgba(255,255,255,0.24), transparent 40%),
+        linear-gradient(135deg, rgba(255,246,216,0.18), rgba(183,208,181,0.10));
+      color: var(--moon);
+      box-shadow: 0 16px 52px rgba(0,0,0,0.28);
+      backdrop-filter: blur(14px);
+      cursor: pointer;
+      transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease, opacity .24s ease;
+    }
+
+    .pill-btn:hover,
+    .pill-btn:focus-visible,
+    .icon-btn:hover,
+    .icon-btn:focus-visible,
+    .music-toggle:hover,
+    .music-toggle:focus-visible,
+    .secret-star:hover,
+    .secret-star:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(255,246,216,0.45);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.34);
+      outline: none;
+    }
+
+    .pill-btn {
+      width: min(100%, 340px);
+      min-height: 54px;
+      border-radius: 999px;
+      padding: 1rem 1.35rem;
+      font-size: 1rem;
+    }
+
+    .icon-btn {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      font-size: 1.3rem;
+    }
+
+    .music-toggle {
+      position: fixed;
+      right: 1rem;
+      bottom: calc(1rem + env(safe-area-inset-bottom));
+      z-index: 200;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1.05rem;
+    }
+
+    .veil {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: grid;
+      place-items: center;
+      padding: 2rem 1.25rem;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,246,216,0.12), transparent 26rem),
+        radial-gradient(circle at 16% 82%, rgba(183,208,181,0.14), transparent 18rem),
+        linear-gradient(180deg, #010208, #07101a 56%, #061310);
+      transition: opacity 1.2s ease, visibility 1.2s ease;
+    }
+
+    .veil.opened {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .veil::before,
+    .veil::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .veil::before {
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.85) 0 1px, transparent 1.6px),
+        radial-gradient(circle, rgba(255,246,216,0.48) 0 1px, transparent 1.6px);
+      background-size: 100px 100px, 160px 160px;
+      background-position: 8px 18px, 54px 64px;
+      opacity: 0.45;
+      animation: skyDrift 55s linear infinite;
+    }
+
+    .veil::after {
+      background: radial-gradient(circle at 50% 50%, transparent, rgba(0,0,0,0.28));
+    }
+
+    .veil-inner {
+      width: min(100%, 560px);
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      animation: rise 1.4s ease both;
+    }
+
+    .veil p {
+      margin: 1.1rem auto 0;
+      max-width: 460px;
+    }
+
+    .veil .pill-btn {
+      margin-top: 1.7rem;
+    }
+
+    .world {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .ambient {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .sky-layer,
+    .sky-layer::before,
+    .sky-layer::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .sky-layer {
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.82) 0 1px, transparent 1.6px),
+        radial-gradient(circle, rgba(255,246,216,0.42) 0 1px, transparent 1.4px);
+      background-size: 88px 88px, 144px 144px;
+      background-position: 12px 18px, 42px 60px;
+      opacity: 0.48;
+      animation: skyDrift 85s linear infinite;
+    }
+
+    .sky-layer::before {
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.74) 0 1px, transparent 1.6px),
+        radial-gradient(circle, rgba(255,246,216,0.30) 0 1px, transparent 1.5px);
+      background-size: 118px 118px, 182px 182px;
+      background-position: 36px 42px, 92px 12px;
+      opacity: 0.36;
+      animation: skyDriftReverse 120s linear infinite;
+    }
+
+    .sky-layer::after {
+      opacity: 0.8;
+      background:
+        radial-gradient(circle at 50% 10%, rgba(255,246,216,0.09), transparent 24rem),
+        radial-gradient(circle at 15% 50%, rgba(183,208,181,0.07), transparent 20rem),
+        radial-gradient(circle at 85% 55%, rgba(176,203,255,0.06), transparent 20rem);
+    }
+
+    .moon-orb {
+      position: absolute;
+      top: 8vh;
+      right: 8vw;
+      width: clamp(84px, 22vw, 150px);
+      height: clamp(84px, 22vw, 150px);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fffdf0, #fff0b8 58%, rgba(255,240,184,0.20));
+      box-shadow: 0 0 90px rgba(255,246,216,0.38);
+      opacity: 0.94;
+      animation: moonGlow 8s ease-in-out infinite alternate;
+    }
+
+    .aurora {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .aurora::before,
+    .aurora::after {
+      content: "";
+      position: absolute;
+      left: -20%;
+      width: 140%;
+      border-radius: 50%;
+      filter: blur(24px);
+      mix-blend-mode: screen;
+      opacity: 0.56;
+      animation: auroraDrift 16s ease-in-out infinite;
+    }
+
+    .aurora::before {
+      top: 8vh;
+      height: 180px;
+      background: linear-gradient(90deg, transparent, var(--aurora-a), rgba(176,203,255,0.26), transparent);
+    }
+
+    .aurora::after {
+      top: 18vh;
+      height: 150px;
+      background: linear-gradient(90deg, transparent, rgba(183,208,181,0.16), var(--aurora-c), transparent);
+      animation-duration: 20s;
+      opacity: 0.42;
+    }
+
+    .shooting-star {
+      position: absolute;
+      top: 18vh;
+      right: 12vw;
+      width: 130px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent);
+      border-radius: 999px;
+      box-shadow: 0 0 18px rgba(255,255,255,0.4);
+      opacity: 0;
+      transform: rotate(-24deg);
+      animation: shooting 9s linear infinite 2s;
+    }
+
+    .mist-layer,
+    .mist-layer::before,
+    .mist-layer::after {
+      position: absolute;
+      left: -20%;
+      right: -20%;
+      bottom: -4vh;
+      height: 42vh;
+      pointer-events: none;
+      filter: blur(14px);
+    }
+
+    .mist-layer {
+      background:
+        radial-gradient(ellipse at 50% 60%, rgba(235,242,248,0.16), transparent 52%),
+        radial-gradient(ellipse at 18% 82%, rgba(183,208,181,0.12), transparent 42%),
+        radial-gradient(ellipse at 84% 90%, rgba(255,246,216,0.08), transparent 44%);
+      animation: mistShift 14s ease-in-out infinite alternate;
+    }
+
+    .mist-layer::before,
+    .mist-layer::after {
+      content: "";
+      background:
+        radial-gradient(ellipse at 30% 70%, rgba(255,255,255,0.10), transparent 40%),
+        radial-gradient(ellipse at 70% 70%, rgba(255,255,255,0.08), transparent 40%);
+      animation: mistShiftReverse 18s ease-in-out infinite alternate;
+      opacity: 0.72;
+    }
+
+    .mist-layer::after {
+      animation-duration: 24s;
+      opacity: 0.36;
+      filter: blur(20px);
+    }
+
+    .scene {
+      position: relative;
+      z-index: 1;
+      min-height: 100svh;
+      padding: max(5rem, env(safe-area-inset-top)) 1.2rem max(5rem, env(safe-area-inset-bottom));
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .scene > * {
+      position: relative;
+      z-index: 4;
+    }
+
+    .scene.intro-scene {
+      min-height: 112svh;
+      padding-top: 7rem;
+    }
+
+    .water-stage {
+      position: absolute;
+      left: -8%;
+      right: -8%;
+      bottom: -2vh;
+      height: 44vh;
+      z-index: 2;
+      border-radius: 50% 50% 0 0;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(58,102,118,0.10), rgba(9,36,48,0.55) 24%, rgba(8,29,39,0.9) 100%);
+      box-shadow: inset 0 24px 80px rgba(255,255,255,0.06);
+    }
+
+    .water-stage::before,
+    .water-stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .water-stage::before {
+      background:
+        repeating-radial-gradient(circle at 50% 0%, rgba(255,255,255,0.12) 0 2px, transparent 2px 18px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 16px);
+      mix-blend-mode: screen;
+      opacity: 0.24;
+      animation: rippleMove 12s linear infinite;
+    }
+
+    .water-stage::after {
+      background:
+        radial-gradient(ellipse at 50% 10%, rgba(255,246,216,0.18), transparent 18%),
+        linear-gradient(180deg, transparent, rgba(0,0,0,0.16));
+      opacity: 0.85;
+    }
+
+    .reflection {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 140px;
+      height: 92%;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, rgba(255,246,216,0.16), rgba(255,246,216,0.04), transparent);
+      filter: blur(12px);
+      opacity: 0.7;
+      animation: shimmer 7s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    .floating-lily {
+      position: absolute;
+      left: 58%;
+      bottom: 13vh;
+      z-index: 5;
+    }
+
+    .floating-lily .icon-btn {
+      animation: lilyFloat 9s ease-in-out infinite;
+      font-size: 1.45rem;
+    }
+
+    .willow-silhouette {
+      position: absolute;
+      left: 50%;
+      bottom: 14vh;
+      width: 340px;
+      height: 450px;
+      transform: translateX(-50%);
+      opacity: 0.42;
+      z-index: 3;
+      filter: drop-shadow(0 0 40px rgba(183,208,181,0.16));
+      pointer-events: none;
+    }
+
+    .willow-base-trunk {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 48px;
+      height: 280px;
+      transform: translateX(-50%);
+      border-radius: 50% 50% 12px 12px;
+      background: linear-gradient(90deg, #0f0b07, #4a321f, #110c08);
+    }
+
+    .willow-base-crown {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 340px;
+      height: 190px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 44%, rgba(183,223,176,0.60), rgba(73,111,75,0.36) 52%, transparent 76%);
+    }
+
+    .willow-vine {
+      position: absolute;
+      top: 96px;
+      width: 3px;
+      height: 332px;
+      border-radius: 999px;
+      background: linear-gradient(rgba(183,223,176,0.74), rgba(183,223,176,0.16), transparent);
+      transform-origin: top;
+      animation: sway 4.8s ease-in-out infinite alternate;
+    }
+
+    .wv1 { left: 62px; transform: rotate(22deg); }
+    .wv2 { left: 122px; transform: rotate(10deg); animation-delay: .5s; }
+    .wv3 { left: 168px; transform: rotate(0deg); animation-delay: .9s; }
+    .wv4 { right: 122px; transform: rotate(-10deg); animation-delay: .2s; }
+    .wv5 { right: 62px; transform: rotate(-22deg); animation-delay: .7s; }
+
+    .intro-copy {
+      max-width: 560px;
+    }
+
+    .intro-copy p {
+      margin-top: 1rem;
+    }
+
+    .scene-band {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.55;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,246,216,0.10), transparent 22rem),
+        linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.15));
+    }
+
+    .admiration-scene {
+      background:
+        radial-gradient(circle at 50% 14%, rgba(255,246,216,0.10), transparent 24rem),
+        linear-gradient(180deg, rgba(4,7,17,0.18), rgba(7,17,15,0.76));
+    }
+
+    .admiration-grid {
+      width: min(100%, 940px);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .admiration-card {
+      padding: 1.15rem 1rem;
+      border-radius: 1.4rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.11), transparent 8rem),
+        rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 14px 42px rgba(0,0,0,0.24);
+      text-align: left;
+    }
+
+    .admiration-card h3 {
+      color: var(--moon);
+      margin-bottom: 0.65rem;
+    }
+
+    .memory-scene {
+      min-height: 148svh;
+      background:
+        radial-gradient(circle at 50% 14%, rgba(183,208,181,0.12), transparent 24rem),
+        linear-gradient(180deg, rgba(2,4,10,0.96), #06110d 40%, #02030a 100%);
+    }
+
+    .memory-garden {
+      width: min(100%, 460px);
+      height: 820px;
+      position: relative;
+      margin: 2rem auto 0;
+      filter: drop-shadow(0 0 38px rgba(183,208,181,0.16));
+    }
+
+    .memory-crown {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 460px;
+      height: 240px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 38%, rgba(188,232,180,0.64), rgba(67,104,73,0.46) 54%, transparent 76%);
+    }
+
+    .memory-trunk {
+      position: absolute;
+      left: 50%;
+      bottom: 72px;
+      width: 68px;
+      height: 500px;
+      transform: translateX(-50%);
+      border-radius: 52% 52% 12px 12px;
+      background: linear-gradient(90deg, var(--bark-deep), var(--bark) 38%, #1f150f 72%);
+      box-shadow: inset -14px 0 22px rgba(0,0,0,0.42);
+    }
+
+    .memory-root {
+      position: absolute;
+      left: 50%;
+      bottom: 52px;
+      width: 220px;
+      height: 50px;
+      border-bottom: 5px solid rgba(127, 90, 58, 0.92);
+      border-radius: 50%;
+    }
+
+    .mr1 { transform: translateX(-50%) rotate(0deg); }
+    .mr2 { transform: translateX(-50%) rotate(16deg); }
+    .mr3 { transform: translateX(-50%) rotate(-16deg); }
+
+    .memory-pond {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 300px;
+      height: 86px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.12) 0 2px, transparent 2px 14px),
+        linear-gradient(180deg, rgba(91,150,180,0.70), rgba(22,73,97,0.92));
+      box-shadow: 0 0 40px rgba(91,150,180,0.18);
+      opacity: 0.84;
+    }
+
+    .memory-branch {
+      position: absolute;
+      top: 118px;
+      width: 2px;
+      height: 430px;
+      border-radius: 999px;
+      background: linear-gradient(rgba(213,240,208,0.72), rgba(213,240,208,0.16), transparent);
+      transform-origin: top;
+      animation: sway 5s ease-in-out infinite alternate;
+    }
+
+    .mb1 { left: 60px; transform: rotate(22deg); }
+    .mb2 { left: 132px; transform: rotate(8deg); animation-delay: .4s; }
+    .mb3 { left: 216px; transform: rotate(-2deg); animation-delay: .8s; }
+    .mb4 { right: 128px; transform: rotate(-10deg); animation-delay: .2s; }
+    .mb5 { right: 58px; transform: rotate(-22deg); animation-delay: .6s; }
+
+    .memory-lantern {
+      position: absolute;
+      width: 88px;
+      height: 118px;
+      padding: 6px;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.30), transparent 42%),
+        rgba(255,246,216,0.94);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.34), 0 0 24px rgba(255,246,216,0.15);
+      transform: rotate(var(--tilt));
+      overflow: hidden;
+      transition: transform .25s ease;
+    }
+
+    .memory-lantern:hover {
+      transform: rotate(var(--tilt)) translateY(-4px);
+    }
+
+    .memory-lantern::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -44px;
+      width: 1px;
+      height: 46px;
+      background: rgba(255,246,216,0.45);
+    }
+
+    .memory-lantern img {
+      width: 100%;
+      height: 82px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.08);
+    }
+
+    .memory-lantern span {
+      display: block;
+      padding-top: 6px;
+      color: #3a2b20;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 0.64rem;
+      font-weight: 800;
+      text-align: center;
+      text-transform: lowercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ml1 { left: 10px; top: 280px; --tilt: -6deg; }
+    .ml2 { right: 16px; top: 216px; --tilt: 5deg; }
+    .ml3 { left: 142px; top: 114px; --tilt: 2deg; }
+    .ml4 { right: 126px; top: 366px; --tilt: -4deg; }
+    .ml5 { left: 86px; top: 474px; --tilt: 4deg; }
+
+    .memory-copy {
+      max-width: 620px;
+      margin-top: 2rem;
+    }
+
+    .portal-scene {
+      background:
+        radial-gradient(circle at 50% 14%, rgba(255,246,216,0.08), transparent 24rem),
+        linear-gradient(180deg, #02030a, #07110f 48%, #02040a);
+    }
+
+    .portal-grid {
+      display: grid;
+      gap: 2rem;
+      width: min(100%, 920px);
+      margin-top: 2rem;
+    }
+
+    .portal-card {
+      width: min(100%, 430px);
+      margin: 0 auto;
+    }
+
+    .portal-frame {
+      padding: 0.85rem;
+      border-radius: 999px 999px 2rem 2rem;
+      border: 1px solid rgba(255,246,216,0.18);
+      background:
+        linear-gradient(180deg, rgba(255,246,216,0.34), rgba(183,208,181,0.10));
+      box-shadow: 0 28px 90px rgba(0,0,0,0.38), 0 0 42px rgba(255,246,216,0.08);
+    }
+
+    .portal-frame img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 999px 999px 1.4rem 1.4rem;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .portal-caption {
+      margin-top: 0.95rem;
+      text-align: center;
+      font-style: italic;
+      color: rgba(255,246,216,0.78);
+    }
+
+    .future-scene {
+      background:
+        radial-gradient(circle at 50% 12%, rgba(183,208,181,0.10), transparent 24rem),
+        linear-gradient(180deg, #06110d, #02040a 54%, #07101a);
+    }
+
+    .future-list {
+      width: min(100%, 880px);
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.95rem;
+    }
+
+    .future-item {
+      padding: 1rem 1rem 1rem 1.05rem;
+      border-radius: 1.3rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,246,216,0.10), transparent 8rem),
+        rgba(255,255,255,0.06);
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 14px 42px rgba(0,0,0,0.24);
+      text-align: left;
+    }
+
+    .future-mark {
+      flex: 0 0 auto;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,246,216,0.22);
+      background: rgba(255,255,255,0.05);
+      color: var(--gold);
+      font-size: 0.92rem;
+      margin-top: 0.1rem;
+    }
+
+    .thread-scene {
+      background:
+        radial-gradient(circle at 30% 25%, rgba(183,208,181,0.10), transparent 18rem),
+        radial-gradient(circle at 80% 70%, rgba(255,246,216,0.08), transparent 20rem),
+        linear-gradient(180deg, #07101a, #02030a);
+    }
+
+    .thread-stage {
+      position: relative;
+      height: 340px;
+      width: min(100%, 460px);
+      margin: 2rem auto 1.2rem;
+    }
+
+    .thread-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06), transparent 42%);
+      filter: blur(12px);
+      pointer-events: none;
+    }
+
+    .thread-star-a,
+    .thread-star-b {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--moon);
+      box-shadow: 0 0 30px rgba(255,246,216,0.72);
+      animation: pulseStar 2s ease-in-out infinite alternate;
+    }
+
+    .thread-star-a {
+      left: 24px;
+      top: 96px;
+    }
+
+    .thread-star-b {
+      right: 26px;
+      top: 178px;
+      animation-delay: .7s;
+    }
+
+    .silver-thread {
+      position: absolute;
+      left: 56px;
+      right: 56px;
+      top: 152px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,246,216,0.90), transparent);
+      transform: rotate(13deg);
+      box-shadow: 0 0 18px rgba(255,246,216,0.36);
+    }
+
+    .countdown {
+      width: min(100%, 540px);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+      margin: 1.4rem auto 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .time-box {
+      padding: 1rem 0.65rem;
+      border-radius: 1.2rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    }
+
+    .time-box span {
+      display: block;
+      font-size: 2.45rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--gold);
+    }
+
+    .time-box small {
+      display: block;
+      margin-top: 0.45rem;
+      color: rgba(234,241,247,0.62);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .letter-scene {
+      background:
+        radial-gradient(circle at 50% 12%, rgba(255,246,216,0.12), transparent 24rem),
+        linear-gradient(180deg, #02030a, #07110f 48%, #02040a);
+    }
+
+    .letter-shell {
+      width: min(100%, 480px);
+      margin: 2rem auto 0;
+      padding: 1rem;
+      border-radius: 2rem;
+    }
+
+    .letter-open {
+      margin-top: 0.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .letter-paper {
+      display: none;
+      margin-top: 1rem;
+      padding: 1.25rem;
+      border-radius: 1.4rem;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.26), rgba(255,255,255,0)),
+        repeating-linear-gradient(180deg, transparent 0 25px, rgba(49,36,28,0.05) 25px 26px),
+        var(--paper);
+      color: var(--ink);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.45), 0 16px 42px rgba(0,0,0,0.18);
+      animation: rise 0.8s ease both;
+    }
+
+    .letter-paper.show {
+      display: block;
+    }
+
+    .letter-paper p {
+      color: var(--ink);
+      opacity: 1;
+      font-size: 1.02rem;
+      line-height: 1.72;
+      margin-top: 1rem;
+    }
+
+    .letter-paper p:first-of-type {
+      margin-top: 0.2rem;
+    }
+
+    .pressed-lily {
+      text-align: center;
+      color: rgba(107,68,41,0.42);
+      font-size: 2rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .signature {
+      color: #6b4429 !important;
+      font-size: 1.18rem !important;
+    }
+
+    .vow-scene {
+      background:
+        radial-gradient(circle at 50% 14%, rgba(255,246,216,0.14), transparent 24rem),
+        linear-gradient(180deg, #07110f, #02030a 56%, #07101a);
+    }
+
+    .vow-ring {
+      width: min(100%, 520px);
+      margin: 2rem auto 0;
+      padding: 1.2rem;
+      border-radius: 50% 50% 2rem 2rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .vow-ring::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(255,246,216,0.18);
+      border-radius: 50% 50% 1.5rem 1.5rem;
+      pointer-events: none;
+    }
+
+    .vow-core {
+      padding: 2rem 1.1rem 1.4rem;
+      border-radius: 50% 50% 1.6rem 1.6rem;
+      background:
+        radial-gradient(circle at 50% 16%, rgba(255,246,216,0.16), transparent 12rem),
+        rgba(255,255,255,0.05);
+    }
+
+    .vow-lines {
+      display: grid;
+      gap: 0.95rem;
+      margin-top: 1.4rem;
+      text-align: left;
+    }
+
+    .vow-line {
+      padding: 0.9rem 0.95rem;
+      border-radius: 1rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .promise-scene {
+      background:
+        radial-gradient(circle at 50% 12%, rgba(255,246,216,0.12), transparent 24rem),
+        linear-gradient(180deg, #02030a, #06100d 52%, #02040a);
+    }
+
+    .promise-stage {
+      width: min(100%, 520px);
+      margin: 2rem auto 0;
+      padding: 1.2rem;
+      border-radius: 2rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .promise-hands {
+      position: relative;
+      width: 100%;
+      height: 190px;
+      margin: 1rem auto 0.8rem;
+      overflow: hidden;
+    }
+
+    .hand {
+      position: absolute;
+      top: 58px;
+      width: 140px;
+      height: 74px;
+      border-radius: 40px;
+      background: linear-gradient(180deg, #f0c3b7, #d99f8f);
+      box-shadow: inset 0 -8px 14px rgba(0,0,0,0.10), 0 12px 26px rgba(0,0,0,0.18);
+      transition: transform 0.8s ease;
+    }
+
+    .hand::before {
+      content: "";
+      position: absolute;
+      top: -18px;
+      width: 22px;
+      height: 34px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #f0c3b7, #d99f8f);
+      box-shadow: inset 0 -6px 8px rgba(0,0,0,0.08);
+    }
+
+    .hand.left {
+      left: -10px;
+      transform: translateX(0);
+    }
+
+    .hand.left::before {
+      right: 18px;
+      transform: rotate(-10deg);
+    }
+
+    .hand.right {
+      right: -10px;
+      transform: translateX(0);
+    }
+
+    .hand.right::before {
+      left: 18px;
+      transform: rotate(10deg);
+    }
+
+    .promise-thread {
+      position: absolute;
+      left: 50%;
+      top: 92px;
+      width: 110px;
+      height: 2px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, transparent, rgba(255,246,216,0.90), transparent);
+      box-shadow: 0 0 16px rgba(255,246,216,0.36);
+      opacity: 0.72;
+      transition: width 0.8s ease, opacity 0.8s ease;
+    }
+
+    .promise-pinky {
+      position: absolute;
+      left: 50%;
+      top: 72px;
+      width: 26px;
+      height: 26px;
+      transform: translateX(-50%) scale(0.7);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff8e9, #ffd7ea 58%, #c58aa2);
+      box-shadow: 0 0 24px rgba(255,215,234,0.36);
+      opacity: 0;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .promise-stage.sealed .hand.left {
+      transform: translateX(28px);
+    }
+
+    .promise-stage.sealed .hand.right {
+      transform: translateX(-28px);
+    }
+
+    .promise-stage.sealed .promise-thread {
+      width: 38px;
+      opacity: 1;
+    }
+
+    .promise-stage.sealed .promise-pinky {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .promise-message {
+      min-height: 56px;
+      margin-top: 1rem;
+      display: grid;
+      place-items: center;
+      color: rgba(255,246,216,0.84);
+      font-style: italic;
+    }
+
+    .stars-scene {
+      background:
+        radial-gradient(circle at 50% 12%, rgba(255,246,216,0.11), transparent 24rem),
+        linear-gradient(180deg, #06100d, #02030a 48%, #07101a);
+    }
+
+    .unwritten-sky {
+      position: relative;
+      width: min(100%, 460px);
+      height: 420px;
+      margin: 2rem auto 0;
+      border-radius: 2rem;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.34);
+    }
+
+    .unwritten-sky::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 24% 32%, rgba(255,246,216,0.18), transparent 4rem),
+        radial-gradient(circle at 76% 58%, rgba(183,208,181,0.18), transparent 4rem),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06), transparent 12rem),
+        rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: inherit;
+    }
+
+    .constellation-line {
+      position: absolute;
+      left: 30%;
+      right: 30%;
+      top: 48%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,246,216,0.62), transparent);
+      transform: rotate(18deg);
+      z-index: 2;
+    }
+
+    .secret-star {
+      position: absolute;
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      z-index: 3;
+      animation: pulseStar 1.8s ease-in-out infinite alternate;
+    }
+
+    .secret-star.castiel {
+      left: 18%;
+      top: 30%;
+    }
+
+    .secret-star.asterin {
+      right: 18%;
+      top: 52%;
+      animation-delay: .6s;
+    }
+
+    .final-scene {
+      min-height: 118svh;
+      background:
+        radial-gradient(circle at 50% 14%, rgba(255,246,216,0.16), transparent 24rem),
+        linear-gradient(180deg, #02030a, #07101a 42%, #03110e 100%);
+      text-align: center;
+    }
+
+    .final-stage {
+      width: min(100%, 520px);
+      position: relative;
+      margin: 2rem auto 0;
+      min-height: 420px;
+    }
+
+    .final-stage .moon-core {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 118px;
+      height: 118px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fffdf0, #fff0b8 58%, rgba(255,240,184,0.18));
+      box-shadow: 0 0 100px rgba(255,246,216,0.42);
+      animation: moonGlow 8s ease-in-out infinite alternate;
+    }
+
+    .final-stage .mini-aurora {
+      position: absolute;
+      left: -10%;
+      top: 16px;
+      width: 120%;
+      height: 160px;
+      border-radius: 50%;
+      filter: blur(22px);
+      background: linear-gradient(90deg, transparent, rgba(133,242,205,0.14), rgba(176,203,255,0.16), transparent);
+      opacity: 0.56;
+      animation: auroraDrift 16s ease-in-out infinite;
+    }
+
+    .final-tree-wrap {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 310px;
+      height: 310px;
+      transform: translateX(-50%);
+      filter: drop-shadow(0 0 40px rgba(183,208,181,0.16));
+    }
+
+    .final-tree-wrap .memory-crown {
+      width: 310px;
+      height: 165px;
+      top: 16px;
+    }
+
+    .final-tree-wrap .memory-trunk {
+      width: 48px;
+      height: 250px;
+      bottom: 0;
+    }
+
+    .final-tree-wrap .memory-root {
+      width: 180px;
+      bottom: -6px;
+    }
+
+    .vow-ending {
+      max-width: 460px;
+      margin: 1.4rem auto 0;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(5.2rem + env(safe-area-inset-bottom));
+      transform: translateX(-50%) translateY(16px);
+      z-index: 300;
+      width: min(calc(100% - 2rem), 390px);
+      padding: 1rem 1.1rem;
+      border-radius: 1.3rem;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(4,7,17,0.76);
+      color: var(--moon);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 22px 60px rgba(0,0,0,0.35);
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .42s ease, transform .42s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .divider {
+      width: 86px;
+      height: 2px;
+      margin: 1.25rem auto 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(255,246,216,0.90), transparent);
+      box-shadow: 0 0 16px rgba(255,246,216,0.24);
+    }
+
+    /* V7 stability fix:
+       Content is visible by default. JavaScript may add .show for softness,
+       but no section is ever hidden waiting for a button/layout event. */
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: none;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes skyDrift {
+      from { transform: translateY(0); }
+      to { transform: translateY(90px); }
+    }
+
+    @keyframes skyDriftReverse {
+      from { transform: translateY(0); }
+      to { transform: translateY(-70px); }
+    }
+
+    @keyframes auroraDrift {
+      0%, 100% { transform: translateY(0) scaleX(1.02) rotate(-4deg); }
+      50% { transform: translateY(10px) scaleX(1.08) rotate(2deg); }
+    }
+
+    @keyframes moonGlow {
+      from { box-shadow: 0 0 72px rgba(255,246,216,0.30); transform: scale(0.98); }
+      to { box-shadow: 0 0 100px rgba(255,246,216,0.42); transform: scale(1.02); }
+    }
+
+    @keyframes shooting {
+      0%, 68%, 100% {
+        opacity: 0;
+        transform: translate(0,0) rotate(-24deg);
+      }
+      72% { opacity: 1; }
+      92% {
+        opacity: 1;
+        transform: translate(-220px, 130px) rotate(-24deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-280px, 160px) rotate(-24deg);
+      }
+    }
+
+    @keyframes mistShift {
+      from { transform: translateX(-2%); opacity: 0.68; }
+      to { transform: translateX(2%); opacity: 0.95; }
+    }
+
+    @keyframes mistShiftReverse {
+      from { transform: translateX(2%); }
+      to { transform: translateX(-2%); }
+    }
+
+    @keyframes rippleMove {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 0 140px, 0 90px; }
+    }
+
+    @keyframes shimmer {
+      from { opacity: 0.45; transform: translateX(-50%) scaleX(0.92); }
+      to { opacity: 0.85; transform: translateX(-50%) scaleX(1.06); }
+    }
+
+    @keyframes sway {
+      from { translate: -5px 0; }
+      to { translate: 5px 0; }
+    }
+
+    @keyframes lilyFloat {
+      0%, 100% { transform: translate(-8px, 0) rotate(-4deg); }
+      50% { transform: translate(18px, -8px) rotate(5deg); }
+    }
+
+    @keyframes pulseStar {
+      from { transform: scale(0.94); opacity: 0.72; }
+      to { transform: scale(1.08); opacity: 1; }
+    }
+
+
+
+    .realm-sigil {
+      position: fixed;
+      left: 1rem;
+      top: calc(1rem + env(safe-area-inset-top));
+      z-index: 200;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,246,216,0.22);
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,0.22), transparent 42%),
+        rgba(4,7,17,0.44);
+      color: rgba(255,246,216,0.88);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.32);
+      cursor: pointer;
+      transition: transform .25s ease, border-color .25s ease, opacity .25s ease;
+    }
+
+    .realm-sigil:active {
+      transform: scale(.96);
+    }
+
+    .moon-path {
+      position: absolute;
+      left: 50%;
+      top: -6%;
+      width: 210px;
+      height: 112%;
+      transform: translateX(-50%);
+      background:
+        repeating-linear-gradient(180deg, rgba(255,246,216,0.16) 0 8px, rgba(255,246,216,0.04) 8px 18px, transparent 18px 30px);
+      filter: blur(10px);
+      opacity: .45;
+      mix-blend-mode: screen;
+      animation: moonPathShiver 5.5s ease-in-out infinite alternate;
+    }
+
+    .water-lines {
+      position: absolute;
+      left: -20%;
+      right: -20%;
+      height: 100%;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: .22;
+      background:
+        repeating-linear-gradient(0deg, transparent 0 18px, rgba(255,255,255,0.18) 18px 20px, transparent 20px 38px);
+    }
+
+    .water-lines-one {
+      top: 0;
+      animation: waterSlideOne 16s linear infinite;
+    }
+
+    .water-lines-two {
+      top: 18px;
+      opacity: .14;
+      transform: skewY(-2deg);
+      animation: waterSlideTwo 22s linear infinite reverse;
+    }
+
+    .water-sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,246,216,0.95);
+      box-shadow: 0 0 16px rgba(255,246,216,0.55);
+      opacity: 0;
+      animation: waterSparkle 4.8s ease-in-out infinite;
+    }
+
+    .ws1 { left: 28%; top: 30%; animation-delay: .4s; }
+    .ws2 { left: 58%; top: 46%; animation-delay: 1.8s; }
+    .ws3 { left: 76%; top: 26%; animation-delay: 3s; }
+
+    .bark-rune {
+      position: absolute;
+      left: 50%;
+      bottom: 310px;
+      transform: translateX(-50%);
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255,246,216,0.12);
+      border-radius: 50%;
+      background: rgba(255,246,216,0.08);
+      color: rgba(255,246,216,0.50);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      z-index: 7;
+      opacity: .8;
+      transition: opacity .3s ease, transform .3s ease, box-shadow .3s ease;
+    }
+
+    .bark-rune:hover,
+    .bark-rune:focus-visible {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.08);
+      box-shadow: 0 0 22px rgba(255,246,216,0.16);
+      outline: none;
+    }
+
+    .vow-seal {
+      margin-top: 1.2rem;
+      padding: 1rem;
+      border-radius: 1.1rem;
+      border: 1px solid rgba(255,246,216,0.18);
+      color: rgba(255,246,216,0.88);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,246,216,0.12), transparent 10rem),
+        rgba(255,255,255,0.05);
+      font-style: italic;
+      line-height: 1.55;
+    }
+
+    .final-whisper {
+      color: rgba(255,246,216,0.72);
+      font-style: italic;
+    }
+
+    .falling-leaf,
+    .realm-firefly,
+    .promise-spark,
+    .moon-petal {
+      position: fixed;
+      pointer-events: none;
+      z-index: 260;
+    }
+
+    .falling-leaf {
+      top: -40px;
+      width: 12px;
+      height: 22px;
+      border-radius: 80% 20% 80% 20%;
+      background: linear-gradient(135deg, rgba(229,255,229,0.95), rgba(111,158,111,0.72));
+      opacity: .78;
+      animation: leafFall linear forwards;
+      will-change: transform, opacity;
+    }
+
+    .realm-firefly {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(255,231,163,0.95);
+      box-shadow: 0 0 14px rgba(255,231,163,0.8);
+      opacity: 0;
+      animation: fireflyDrift ease-in-out forwards;
+      will-change: transform, opacity;
+    }
+
+    .promise-spark {
+      left: 50%;
+      top: 50%;
+      font-size: 1.15rem;
+      color: var(--moon);
+      text-shadow: 0 0 16px rgba(255,246,216,0.45);
+      animation: promiseSpark 1.6s ease-out forwards;
+    }
+
+    .moon-petal {
+      top: -36px;
+      font-size: 1.1rem;
+      color: rgba(255,246,216,0.92);
+      animation: moonPetalFall linear forwards;
+    }
+
+    @keyframes moonPathShiver {
+      from { opacity: .32; transform: translateX(-50%) scaleX(.92); }
+      to { opacity: .58; transform: translateX(-50%) scaleX(1.08); }
+    }
+
+    @keyframes waterSlideOne {
+      from { transform: translateX(0); }
+      to { transform: translateX(140px); }
+    }
+
+    @keyframes waterSlideTwo {
+      from { transform: translateX(0) skewY(-2deg); }
+      to { transform: translateX(-160px) skewY(-2deg); }
+    }
+
+    @keyframes waterSparkle {
+      0%, 100% { opacity: 0; transform: scale(.6); }
+      40% { opacity: .95; transform: scale(1.2); }
+      65% { opacity: .3; transform: scale(.8); }
+    }
+
+    @keyframes leafFall {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, -40px, 0) rotate(0deg);
+      }
+      10% { opacity: .78; }
+      100% {
+        opacity: 0;
+        transform: translate3d(var(--drift), 112vh, 0) rotate(420deg);
+      }
+    }
+
+    @keyframes fireflyDrift {
+      0% {
+        opacity: 0;
+        transform: translate3d(0,0,0) scale(.7);
+      }
+      15%, 80% {
+        opacity: .85;
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(var(--x), var(--y), 0) scale(1.1);
+      }
+    }
+
+    @keyframes promiseSpark {
+      from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(.45) rotate(0deg);
+      }
+      to {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) scale(1.3) rotate(240deg);
+      }
+    }
+
+    @keyframes moonPetalFall {
+      0% {
+        opacity: 0;
+        transform: translate3d(0,-40px,0) rotate(0deg);
+      }
+      12% { opacity: .9; }
+      100% {
+        opacity: 0;
+        transform: translate3d(var(--drift), 112vh, 0) rotate(360deg);
+      }
+    }
+
+
+
+    .root-realm {
+      position: absolute;
+      top: 92svh;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: .72;
+      overflow: hidden;
+    }
+
+    .root-svg {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: min(100%, 520px);
+      height: 100%;
+      min-height: 6200px;
+      transform: translateX(-50%);
+      overflow: visible;
+      --root-progress: 0;
+      filter: drop-shadow(0 0 16px rgba(216,180,106,0.08));
+    }
+
+    .root-path {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1;
+      stroke-dashoffset: calc(1 - var(--root-progress));
+      transition: stroke-dashoffset .16s linear;
+    }
+
+    .root-main {
+      stroke: rgba(112, 76, 44, .82);
+      stroke-width: 12;
+    }
+
+    .root-branch {
+      stroke: rgba(105, 72, 43, .62);
+      stroke-width: 7;
+    }
+
+    .root-hair {
+      stroke: rgba(146, 110, 66, .40);
+      stroke-width: 3;
+    }
+
+    .root-node {
+      position: absolute;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      transform: translateX(-50%);
+      background: rgba(216,180,106,.72);
+      box-shadow: 0 0 22px rgba(216,180,106,.36);
+      opacity: calc(.2 + var(--root-progress, 0));
+    }
+
+    .node-admiration { top: 680px; margin-left: -86px; }
+    .node-memory { top: 1540px; margin-left: 92px; }
+    .node-future { top: 3260px; margin-left: -96px; }
+    .node-vow { top: 4700px; margin-left: 86px; }
+    .node-promise { top: 5400px; margin-left: 0; }
+
+    .lantern-field {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .ancient-lantern {
+      position: absolute;
+      width: 34px;
+      height: 54px;
+      border-radius: 15px 15px 18px 18px;
+      border: 1px solid rgba(255,220,150,.28);
+      background:
+        radial-gradient(circle at 50% 48%, rgba(255,200,92,.86), rgba(255,160,70,.18) 42%, rgba(50,30,16,.24) 70%),
+        rgba(20,14,10,.32);
+      box-shadow:
+        0 0 34px rgba(255,176,82,.28),
+        0 20px 42px rgba(0,0,0,.25);
+      animation: lanternSway 4.8s ease-in-out infinite alternate, lanternGlow 2.6s ease-in-out infinite alternate;
+    }
+
+    .ancient-lantern::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -74px;
+      width: 1px;
+      height: 74px;
+      background: linear-gradient(rgba(255,246,216,.32), rgba(255,246,216,.06));
+    }
+
+    .ancient-lantern::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 8px;
+      width: 12px;
+      height: 24px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: rgba(255,225,150,.78);
+      filter: blur(4px);
+    }
+
+    .ancient-lantern span {
+      position: absolute;
+      inset: 5px 6px;
+      border: 1px solid rgba(255,246,216,.14);
+      border-radius: 11px 11px 14px 14px;
+    }
+
+    .lantern-one { top: 142svh; left: 8%; animation-delay: .2s; }
+    .lantern-two { top: 246svh; right: 8%; animation-delay: 1.1s; }
+    .lantern-three { top: 372svh; left: 10%; animation-delay: .6s; }
+    .lantern-four { top: 520svh; right: 10%; animation-delay: 1.5s; }
+    .lantern-five { top: 650svh; left: 14%; animation-delay: .9s; }
+
+    .poetry-scene {
+      background:
+        radial-gradient(circle at 50% 12%, rgba(255,246,216,0.12), transparent 24rem),
+        radial-gradient(circle at 50% 78%, rgba(203,149,173,0.08), transparent 18rem),
+        linear-gradient(180deg, #02040a, #07110f 46%, #02030a);
+    }
+
+    .sketch-altar {
+      width: min(100%, 500px);
+      margin: 2rem auto 0;
+      padding: 1.1rem;
+      border-radius: 2rem;
+    }
+
+    .sketch-paper {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto 1rem;
+      filter: drop-shadow(0 18px 34px rgba(0,0,0,.24));
+    }
+
+    .paper-outline {
+      fill: rgba(255,243,220,.94);
+      stroke: rgba(255,246,216,.34);
+      stroke-width: 2;
+    }
+
+    .sketch-line,
+    .sketch-root-line {
+      fill: none;
+      stroke: rgba(49,36,28,.58);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 600;
+      stroke-dashoffset: 600;
+      animation: sketchDraw 4s ease forwards;
+    }
+
+    .sketch-line.thin {
+      stroke-width: 2.4;
+      animation-delay: .4s;
+    }
+
+    .sketch-root-line {
+      stroke: rgba(95,65,40,.42);
+      stroke-width: 2.6;
+      animation-delay: .8s;
+    }
+
+    .sketch-moon {
+      fill: rgba(216,180,106,.35);
+      stroke: rgba(49,36,28,.30);
+      stroke-width: 2;
+    }
+
+    .poem-scrap-btn {
+      margin-top: 1.2rem;
+    }
+
+    .memory-garden {
+      z-index: 3;
+    }
+
+    .memory-trunk::before {
+      content: "";
+      position: absolute;
+      inset: 18px 12px;
+      border-left: 2px solid rgba(255,246,216,.10);
+      border-right: 1px solid rgba(0,0,0,.22);
+      border-radius: 50%;
+      opacity: .8;
+    }
+
+    .memory-trunk::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 84px;
+      width: 26px;
+      height: 42px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 44%, rgba(255,246,216,.12), transparent 42%),
+        rgba(0,0,0,.12);
+      border: 1px solid rgba(255,246,216,.08);
+    }
+
+    .willow-base-trunk::before {
+      content: "";
+      position: absolute;
+      inset: 18px 8px;
+      border-left: 2px solid rgba(255,246,216,.08);
+      border-radius: 50%;
+    }
+
+    @keyframes lanternSway {
+      from { transform: translateX(-4px) rotate(-2deg); }
+      to { transform: translateX(4px) rotate(2deg); }
+    }
+
+    @keyframes lanternGlow {
+      from { opacity: .72; filter: brightness(.92); }
+      to { opacity: 1; filter: brightness(1.15); }
+    }
+
+    @keyframes sketchDraw {
+      to { stroke-dashoffset: 0; }
+    }
+
+
+    /* V7: Replace the old oval/cartoon hero tree with a more organic SVG willow */
+    .willow-silhouette {
+      display: none !important;
+    }
+
+    .hero-willow-real {
+      position: absolute;
+      left: 50%;
+      bottom: 5vh;
+      width: min(112vw, 690px);
+      height: min(88vh, 620px);
+      transform: translateX(-50%);
+      z-index: 3;
+      pointer-events: none;
+      opacity: 0.92;
+      filter: drop-shadow(0 0 40px rgba(183,208,181,0.13));
+    }
+
+    .hero-willow-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .real-trunk-shadow {
+      fill: rgba(0,0,0,0.26);
+      transform: translate(8px, 8px);
+    }
+
+    .real-trunk {
+      fill: url(#realTrunkGrad);
+      stroke: rgba(255,246,216,0.08);
+      stroke-width: 1;
+    }
+
+    .real-branch {
+      fill: none;
+      stroke: rgba(48,31,20,0.96);
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .real-branch.thick {
+      stroke-width: 12;
+    }
+
+    .real-branch.fine {
+      stroke-width: 5;
+      opacity: 0.88;
+    }
+
+    .real-bark {
+      fill: none;
+      stroke: rgba(255,246,216,0.12);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      opacity: 0.72;
+    }
+
+    .real-leaf-mass {
+      fill: rgba(114, 150, 100, 0.18);
+      opacity: 0.68;
+      mix-blend-mode: screen;
+    }
+
+    .real-frond {
+      transform-origin: center top;
+      animation: realFrondSway var(--sway, 5.8s) ease-in-out infinite alternate;
+      animation-delay: var(--delay, 0s);
+    }
+
+    .real-frond-stem {
+      fill: none;
+      stroke: rgba(180, 220, 170, 0.34);
+      stroke-width: 1.35;
+      stroke-linecap: round;
+    }
+
+    .real-leaf {
+      fill: url(#realLeafGrad);
+      opacity: 0.92;
+    }
+
+    .real-leaf-glow {
+      fill: rgba(221,181,111,0.10);
+      opacity: 0.56;
+    }
+
+    .memory-crown {
+      border-radius: 58% 42% 52% 48% / 46% 54% 42% 58% !important;
+      background:
+        radial-gradient(circle at 32% 36%, rgba(212,245,198,0.52), transparent 34%),
+        radial-gradient(circle at 62% 30%, rgba(188,232,180,0.50), transparent 32%),
+        radial-gradient(circle at 48% 60%, rgba(98,143,86,0.42), transparent 46%),
+        radial-gradient(circle at 50% 50%, rgba(67,104,73,0.34), transparent 76%) !important;
+      filter: blur(0.2px);
+    }
+
+    /* Scenery breathing rooms */
+    .scenery-scene {
+      min-height: 76svh;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,246,216,0.08), transparent 18rem),
+        linear-gradient(180deg, rgba(2,4,10,0.58), rgba(7,17,15,0.70), rgba(2,4,10,0.58));
+    }
+
+    .scenery-scene > * {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .scenery-lake .scenery-water {
+      left: -12%;
+      right: -12%;
+      bottom: 0;
+      height: 42%;
+      border-radius: 50% 50% 0 0;
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.09) 0 1px, transparent 1px 18px),
+        linear-gradient(180deg, rgba(21,64,82,0.20), rgba(11,36,49,0.82));
+      animation: waterSlideOne 18s linear infinite;
+      opacity: 0.86;
+    }
+
+    .moon-reflect {
+      left: 50%;
+      top: 22%;
+      width: 130px;
+      height: 130px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 36% 30%, #fffdf0, #fff0b8 58%, rgba(255,240,184,0.14));
+      box-shadow: 0 0 78px rgba(255,246,216,0.32);
+      animation: moonGlow 8s ease-in-out infinite alternate;
+    }
+
+    .scenery-lantern-row {
+      left: 50%;
+      top: 52%;
+      width: 280px;
+      height: 80px;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .scenery-lantern-row span,
+    .big-lantern,
+    .bridge-light {
+      width: 24px;
+      height: 38px;
+      border-radius: 12px 12px 14px 14px;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(255,215,128,0.94), rgba(255,164,76,0.25) 45%, rgba(20,12,8,0.24) 70%);
+      border: 1px solid rgba(255,220,150,0.26);
+      box-shadow: 0 0 30px rgba(255,176,82,0.26);
+      animation: lanternGlow 2.6s ease-in-out infinite alternate;
+    }
+
+    .rootwalk-line {
+      left: 50%;
+      top: 12%;
+      width: 2px;
+      height: 76%;
+      transform: translateX(-50%) rotate(8deg);
+      border-radius: 999px;
+      background: linear-gradient(transparent, rgba(121,82,49,0.66), rgba(221,181,111,0.28), transparent);
+      box-shadow: 0 0 20px rgba(221,181,111,0.11);
+    }
+
+    .rootwalk-glow {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(221,181,111,0.72);
+      box-shadow: 0 0 22px rgba(221,181,111,0.38);
+      animation: pulseStar 2.4s ease-in-out infinite alternate;
+    }
+
+    .rootwalk-glow.g1 { left: 38%; top: 28%; }
+    .rootwalk-glow.g2 { left: 58%; top: 52%; animation-delay: .5s; }
+    .rootwalk-glow.g3 { left: 42%; top: 72%; animation-delay: .9s; }
+
+    .big-lantern {
+      width: 44px;
+      height: 70px;
+    }
+
+    .big-lantern::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -100px;
+      width: 1px;
+      height: 100px;
+      background: linear-gradient(rgba(255,246,216,0.26), transparent);
+    }
+
+    .bl1 { left: 16%; top: 22%; }
+    .bl2 { right: 18%; top: 34%; animation-delay: .8s; }
+    .bl3 { left: 50%; top: 52%; transform: translateX(-50%); animation-delay: 1.3s; }
+
+    .mist-ring {
+      left: 50%;
+      bottom: 16%;
+      width: min(88vw, 420px);
+      height: 120px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 50%, rgba(235,242,248,0.13), transparent 64%);
+      filter: blur(16px);
+      animation: mistShift 12s ease-in-out infinite alternate;
+    }
+
+    .ink-paper {
+      left: 50%;
+      top: 26%;
+      width: min(70vw, 280px);
+      height: 190px;
+      transform: translateX(-50%) rotate(-4deg);
+      border-radius: 28px;
+      background: rgba(255,243,220,0.12);
+      border: 1px solid rgba(255,246,216,0.16);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.20);
+    }
+
+    .ink-line {
+      left: 50%;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(255,246,216,0.66), transparent);
+      transform: translateX(-50%);
+      opacity: 0.7;
+    }
+
+    .ink-line.one { top: 42%; width: 180px; }
+    .ink-line.two { top: 50%; width: 130px; }
+    .ink-line.three { top: 58%; width: 210px; }
+
+    .bridge-line {
+      left: 12%;
+      right: 12%;
+      top: 52%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(221,181,111,0.58), transparent);
+      box-shadow: 0 0 22px rgba(221,181,111,0.18);
+    }
+
+    .bridge-light {
+      top: 48%;
+      width: 26px;
+      height: 42px;
+    }
+
+    .bridge-light.l1 { left: 18%; }
+    .bridge-light.l2 { left: 38%; animation-delay: .4s; }
+    .bridge-light.l3 { right: 38%; animation-delay: .8s; }
+    .bridge-light.l4 { right: 18%; animation-delay: 1.2s; }
+
+    .deep-root {
+      top: 18%;
+      width: 4px;
+      height: 72%;
+      border-radius: 999px;
+      background: linear-gradient(transparent, rgba(111,74,45,0.72), rgba(221,181,111,0.18), transparent);
+      box-shadow: 0 0 20px rgba(221,181,111,0.10);
+    }
+
+    .deep-root.r1 { left: 34%; transform: rotate(-10deg); }
+    .deep-root.r2 { left: 50%; transform: translateX(-50%) rotate(2deg); }
+    .deep-root.r3 { right: 34%; transform: rotate(10deg); }
+
+    /* Root heart ending */
+    .root-heart-wrap {
+      width: min(100%, 540px);
+      margin: 2rem auto 0;
+      padding: 1rem;
+      border-radius: 2rem;
+    }
+
+    .root-heart-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+
+    .heart-root {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1250;
+      stroke-dashoffset: 1250;
+      animation: heartRootDraw 7s ease-in-out infinite;
+    }
+
+    .heart-root.primary {
+      stroke: rgba(111,74,45,0.92);
+      stroke-width: 9;
+    }
+
+    .heart-root.secondary {
+      stroke: rgba(153,116,74,0.58);
+      stroke-width: 4.4;
+      animation-delay: .4s;
+    }
+
+    .heart-root.glow {
+      stroke: rgba(221,181,111,0.20);
+      stroke-width: 18;
+      filter: blur(7px);
+      animation-delay: .1s;
+    }
+
+    .heart-light {
+      opacity: 0;
+      animation: heartLightPulse 7s ease-in-out infinite;
+    }
+
+    .heart-light circle:first-child {
+      fill: rgba(221,181,111,0.18);
+    }
+
+    .heart-light circle:last-child {
+      fill: rgba(255,246,216,0.86);
+      filter: drop-shadow(0 0 20px rgba(255,246,216,0.34));
+    }
+
+    @keyframes realFrondSway {
+      from { transform: rotate(-1.5deg) translateX(-2px); }
+      to { transform: rotate(1.8deg) translateX(2px); }
+    }
+
+    @keyframes heartRootDraw {
+      0% { stroke-dashoffset: 1250; opacity: .52; }
+      42%, 76% { stroke-dashoffset: 0; opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: .72; }
+    }
+
+    @keyframes heartLightPulse {
+      0%, 40% { opacity: 0; transform: scale(.82); transform-origin: center; }
+      58%, 86% { opacity: 1; transform: scale(1); transform-origin: center; }
+      100% { opacity: .7; transform: scale(.96); transform-origin: center; }
+    }
+
+    @media (min-width: 760px) {
+      .scene {
+        padding-left: 8%;
+        padding-right: 8%;
+      }
+
+      .admiration-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .future-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .portal-grid {
+        grid-template-columns: repeat(2, 1fr);
+        align-items: start;
+      }
+
+      .countdown {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .portal-frame img {
+        height: 500px;
+      }
+
+      .memory-garden {
+        transform: scale(1.04);
+        transform-origin: top center;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .portal-frame img {
+        height: 360px;
+      }
+
+      .memory-garden {
+        transform: scale(0.88);
+        transform-origin: top center;
+        margin-bottom: -110px;
+      }
+
+      .time-box span {
+        font-size: 2.05rem;
+      }
+
+      .hand {
+        width: 126px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body class="locked">
+  <audio id="bgMusic" loop>
+    <source src="song.mp3" type="audio/mpeg" />
+  </audio>
+
+  <button id="musicToggle" class="music-toggle hidden" aria-label="Toggle music">♪</button>
+  <button id="realmSigil" class="realm-sigil hidden" aria-label="The realm remembers">☾</button>
+
+  <div id="veil" class="veil">
+    <div class="veil-inner">
+      <p class="eyebrow">for dannianlys</p>
+      <h1>The Willow<br />Beyond the Moon</h1>
+      <p>
+        Beyond distance, beyond waiting, there is a place I made for you.
+        Not a page. A place. A realm where our love has already taken root.
+      </p>
+      <button id="enterBtn" class="pill-btn">Enter the realm</button>
+    </div>
+  </div>
+
+  <div class="ambient" aria-hidden="true">
+    <div class="sky-layer"></div>
+    <div class="aurora"></div>
+    <div class="moon-orb"></div>
+    <div class="shooting-star"></div>
+    <div class="mist-layer"></div>
+  </div>
+
+  <main class="world">
+    <div class="root-realm" aria-hidden="true">
+      <svg id="rootSvg" class="root-svg" viewBox="0 0 390 6800" preserveAspectRatio="none">
+        <path class="root-path root-main" pathLength="1" d="M195 0 C190 220, 214 360, 198 560 C182 780, 222 980, 188 1190 C160 1380, 206 1560, 190 1760 C176 1950, 226 2140, 196 2350 C168 2550, 216 2760, 192 3000 C174 3200, 224 3400, 202 3650 C186 3900, 214 4160, 194 4400 C176 4660, 218 4900, 196 5200 C182 5450, 204 5750, 190 6100 C184 6320, 196 6560, 188 6800" />
+        <path class="root-path root-branch" pathLength="1" d="M194 560 C126 640, 74 740, 44 900 C28 1030, 62 1120, 20 1250" />
+        <path class="root-path root-branch" pathLength="1" d="M202 840 C270 910, 312 1040, 342 1190 C364 1300, 338 1420, 378 1540" />
+        <path class="root-path root-branch" pathLength="1" d="M190 1420 C120 1520, 80 1660, 46 1840 C22 1980, 58 2100, 18 2260" />
+        <path class="root-path root-branch" pathLength="1" d="M196 1840 C260 1940, 318 2080, 342 2290 C358 2440, 330 2580, 374 2740" />
+        <path class="root-path root-branch" pathLength="1" d="M194 2480 C134 2620, 86 2820, 44 3060 C24 3220, 64 3380, 26 3560" />
+        <path class="root-path root-branch" pathLength="1" d="M202 3040 C258 3160, 306 3320, 344 3540 C368 3720, 332 3860, 376 4060" />
+        <path class="root-path root-branch" pathLength="1" d="M192 3860 C132 3980, 90 4180, 50 4420 C22 4600, 72 4760, 30 4940" />
+        <path class="root-path root-branch" pathLength="1" d="M198 4620 C260 4760, 312 4960, 340 5220 C354 5380, 332 5560, 378 5740" />
+        <path class="root-path root-hair" pathLength="1" d="M142 720 C106 780, 92 850, 76 940" />
+        <path class="root-path root-hair" pathLength="1" d="M280 1050 C314 1120, 322 1190, 330 1260" />
+        <path class="root-path root-hair" pathLength="1" d="M118 1700 C90 1780, 82 1880, 70 1980" />
+        <path class="root-path root-hair" pathLength="1" d="M286 2180 C314 2260, 318 2380, 328 2480" />
+        <path class="root-path root-hair" pathLength="1" d="M104 2980 C78 3100, 74 3200, 60 3320" />
+        <path class="root-path root-hair" pathLength="1" d="M304 3500 C326 3620, 330 3740, 342 3860" />
+        <path class="root-path root-hair" pathLength="1" d="M108 4300 C80 4460, 86 4600, 62 4740" />
+        <path class="root-path root-hair" pathLength="1" d="M304 5120 C336 5280, 328 5480, 354 5620" />
+      </svg>
+
+      <div class="root-node node-admiration"></div>
+      <div class="root-node node-memory"></div>
+      <div class="root-node node-future"></div>
+      <div class="root-node node-vow"></div>
+      <div class="root-node node-promise"></div>
+    </div>
+
+    <div class="lantern-field" aria-hidden="true">
+      <div class="ancient-lantern lantern-one"><span></span></div>
+      <div class="ancient-lantern lantern-two"><span></span></div>
+      <div class="ancient-lantern lantern-three"><span></span></div>
+      <div class="ancient-lantern lantern-four"><span></span></div>
+      <div class="ancient-lantern lantern-five"><span></span></div>
+    </div>
+    <section class="scene intro-scene">
+      <div class="scene-band"></div>
+
+      <div class="water-stage" aria-hidden="true">
+        <div class="reflection"></div>
+        <div class="moon-path"></div>
+        <div class="water-lines water-lines-one"></div>
+        <div class="water-lines water-lines-two"></div>
+        <div class="water-sparkle ws1"></div>
+        <div class="water-sparkle ws2"></div>
+        <div class="water-sparkle ws3"></div>
+      </div>
+
+      <div class="willow-silhouette" aria-hidden="true">
+        <div class="willow-base-crown"></div>
+        <div class="willow-base-trunk"></div>
+        <div class="willow-vine wv1"></div>
+        <div class="willow-vine wv2"></div>
+        <div class="willow-vine wv3"></div>
+        <div class="willow-vine wv4"></div>
+        <div class="willow-vine wv5"></div>
+      </div>
+
+      <div class="hero-willow-real" aria-hidden="true">
+        <svg viewBox="0 0 520 560" class="hero-willow-svg">
+          <defs>
+            <linearGradient id="realTrunkGrad" x1="0" x2="1">
+              <stop offset="0%" stop-color="#160d08" />
+              <stop offset="38%" stop-color="#6b4b31" />
+              <stop offset="68%" stop-color="#3f2718" />
+              <stop offset="100%" stop-color="#120b07" />
+            </linearGradient>
+            <linearGradient id="realLeafGrad" x1="0" x2="1">
+              <stop offset="0%" stop-color="#ecf7e7" />
+              <stop offset="45%" stop-color="#b7d4af" />
+              <stop offset="100%" stop-color="#668b68" />
+            </linearGradient>
+            <filter id="leafBlur">
+              <feGaussianBlur stdDeviation="2.2" />
+            </filter>
+          </defs>
+
+          <path class="real-trunk-shadow" d="M238 528 C235 470, 232 410, 236 350 C240 298, 232 256, 244 212 C258 158, 254 118, 274 84 C288 60, 316 58, 336 76 C362 100, 354 146, 348 188 C340 242, 354 302, 358 370 C360 424, 360 480, 354 528 Z" />
+          <path class="real-trunk" d="M232 528 C230 470, 228 410, 232 350 C236 298, 230 256, 242 212 C256 160, 254 118, 274 84 C290 58, 318 58, 338 78 C360 100, 354 146, 348 188 C340 242, 354 302, 358 370 C360 424, 360 480, 352 528 Z" />
+
+          <path class="real-branch thick" d="M286 106 C230 78, 172 72, 118 88 C76 100, 48 124, 24 154" />
+          <path class="real-branch thick" d="M304 108 C360 80, 418 76, 468 96 C502 110, 526 136, 546 168" />
+          <path class="real-branch" d="M256 122 C210 106, 164 112, 126 140 C96 162, 74 190, 54 230" />
+          <path class="real-branch" d="M324 126 C372 110, 420 118, 456 148 C482 170, 502 204, 516 244" />
+          <path class="real-branch fine" d="M244 152 C202 148, 168 158, 140 184 C116 206, 100 238, 90 278" />
+          <path class="real-branch fine" d="M334 154 C374 150, 408 162, 434 190 C456 214, 470 246, 478 286" />
+          <path class="real-branch fine" d="M276 88 C250 62, 218 48, 184 50 C154 52, 126 66, 104 88" />
+          <path class="real-branch fine" d="M320 88 C346 64, 378 52, 412 56 C442 60, 468 76, 488 100" />
+
+          <path class="real-bark" d="M280 92 C276 150, 282 210, 284 270 C288 360, 292 438, 288 528" />
+          <path class="real-bark" d="M258 150 C250 214, 254 298, 260 392" />
+          <path class="real-bark" d="M318 144 C328 214, 330 292, 326 372" />
+          <path class="real-bark" d="M246 252 C258 276, 258 300, 248 330" />
+          <path class="real-bark" d="M340 240 C328 270, 332 302, 344 336" />
+
+          <g class="real-leaf-mass" filter="url(#leafBlur)">
+            <ellipse cx="152" cy="132" rx="92" ry="52" />
+            <ellipse cx="250" cy="104" rx="118" ry="60" />
+            <ellipse cx="360" cy="128" rx="108" ry="58" />
+            <ellipse cx="244" cy="172" rx="184" ry="78" />
+          </g>
+
+          <g class="real-fronds">
+            
+            <g class="real-frond" style="--sway:5.00s;--delay:0.00s">
+              <path class="real-frond-stem" d="M52.0 145.0 C46.6 219.2, 22.5 335.8, 16.0 410.0" />
+              <ellipse class="real-leaf-glow" cx="54.3" cy="167.1" rx="9.6" ry="5.4" transform="rotate(21.5 54.3 167.1)" /><ellipse class="real-leaf" cx="58.8" cy="167.1" rx="7.6" ry="4.0" transform="rotate(21.5 58.8 167.1)" /><ellipse class="real-leaf-glow" cx="41.7" cy="189.2" rx="9.4" ry="5.3" transform="rotate(-23.0 41.7 189.2)" /><ellipse class="real-leaf" cx="36.2" cy="189.2" rx="7.4" ry="3.9" transform="rotate(-23.0 36.2 189.2)" /><ellipse class="real-leaf-glow" cx="50.7" cy="211.2" rx="9.2" ry="5.2" transform="rotate(24.5 50.7 211.2)" /><ellipse class="real-leaf" cx="57.0" cy="211.2" rx="7.2" ry="3.8" transform="rotate(24.5 57.0 211.2)" /><ellipse class="real-leaf-glow" cx="34.5" cy="233.3" rx="9.1" ry="5.1" transform="rotate(-26.0 34.5 233.3)" /><ellipse class="real-leaf" cx="27.6" cy="233.3" rx="7.1" ry="3.7" transform="rotate(-26.0 27.6 233.3)" /><ellipse class="real-leaf-glow" cx="45.9" cy="255.4" rx="8.9" ry="5.0" transform="rotate(27.5 45.9 255.4)" /><ellipse class="real-leaf" cx="53.2" cy="255.4" rx="6.9" ry="3.6" transform="rotate(27.5 53.2 255.4)" /><ellipse class="real-leaf-glow" cx="27.9" cy="277.5" rx="8.7" ry="4.9" transform="rotate(-29.0 27.9 277.5)" /><ellipse class="real-leaf" cx="20.4" cy="277.5" rx="6.7" ry="3.5" transform="rotate(-29.0 20.4 277.5)" /><ellipse class="real-leaf-glow" cx="39.7" cy="299.6" rx="8.5" ry="4.9" transform="rotate(30.5 39.7 299.6)" /><ellipse class="real-leaf" cx="47.0" cy="299.6" rx="6.5" ry="3.5" transform="rotate(30.5 47.0 299.6)" /><ellipse class="real-leaf-glow" cx="22.2" cy="321.7" rx="8.3" ry="4.8" transform="rotate(-32.0 22.2 321.7)" /><ellipse class="real-leaf" cx="15.2" cy="321.7" rx="6.3" ry="3.4" transform="rotate(-32.0 15.2 321.7)" /><ellipse class="real-leaf-glow" cx="32.2" cy="343.8" rx="8.1" ry="4.7" transform="rotate(33.5 32.2 343.8)" /><ellipse class="real-leaf" cx="38.6" cy="343.8" rx="6.1" ry="3.3" transform="rotate(33.5 38.6 343.8)" /><ellipse class="real-leaf-glow" cx="17.1" cy="365.8" rx="8.0" ry="4.6" transform="rotate(-35.0 17.1 365.8)" /><ellipse class="real-leaf" cx="11.6" cy="365.8" rx="6.0" ry="3.2" transform="rotate(-35.0 11.6 365.8)" /><ellipse class="real-leaf-glow" cx="23.9" cy="387.9" rx="7.8" ry="4.5" transform="rotate(36.5 23.9 387.9)" /><ellipse class="real-leaf" cx="28.4" cy="387.9" rx="5.8" ry="3.1" transform="rotate(36.5 28.4 387.9)" />
+            </g>
+            <g class="real-frond" style="--sway:5.35s;--delay:0.15s">
+              <path class="real-frond-stem" d="M74.0 125.0 C69.8 210.4, 51.0 344.6, 46.0 430.0" />
+              <ellipse class="real-leaf-glow" cx="76.9" cy="148.5" rx="9.6" ry="5.4" transform="rotate(21.4 76.9 148.5)" /><ellipse class="real-leaf" cx="81.3" cy="148.5" rx="7.6" ry="4.0" transform="rotate(21.4 81.3 148.5)" /><ellipse class="real-leaf-glow" cx="65.2" cy="171.9" rx="9.5" ry="5.3" transform="rotate(-22.8 65.2 171.9)" /><ellipse class="real-leaf" cx="59.8" cy="171.9" rx="7.5" ry="3.9" transform="rotate(-22.8 59.8 171.9)" /><ellipse class="real-leaf-glow" cx="74.7" cy="195.4" rx="9.3" ry="5.2" transform="rotate(24.2 74.7 195.4)" /><ellipse class="real-leaf" cx="80.9" cy="195.4" rx="7.3" ry="3.8" transform="rotate(24.2 80.9 195.4)" /><ellipse class="real-leaf-glow" cx="59.7" cy="218.8" rx="9.1" ry="5.2" transform="rotate(-25.5 59.7 218.8)" /><ellipse class="real-leaf" cx="52.9" cy="218.8" rx="7.1" ry="3.8" transform="rotate(-25.5 52.9 218.8)" /><ellipse class="real-leaf-glow" cx="71.6" cy="242.3" rx="9.0" ry="5.1" transform="rotate(26.9 71.6 242.3)" /><ellipse class="real-leaf" cx="78.9" cy="242.3" rx="7.0" ry="3.7" transform="rotate(26.9 78.9 242.3)" /><ellipse class="real-leaf-glow" cx="54.8" cy="265.8" rx="8.8" ry="5.0" transform="rotate(-28.3 54.8 265.8)" /><ellipse class="real-leaf" cx="47.3" cy="265.8" rx="6.8" ry="3.6" transform="rotate(-28.3 47.3 265.8)" /><ellipse class="real-leaf-glow" cx="67.5" cy="289.2" rx="8.6" ry="4.9" transform="rotate(29.7 67.5 289.2)" /><ellipse class="real-leaf" cx="74.9" cy="289.2" rx="6.6" ry="3.5" transform="rotate(29.7 74.9 289.2)" /><ellipse class="real-leaf-glow" cx="50.5" cy="312.7" rx="8.4" ry="4.8" transform="rotate(-31.1 50.5 312.7)" /><ellipse class="real-leaf" cx="43.3" cy="312.7" rx="6.4" ry="3.4" transform="rotate(-31.1 43.3 312.7)" /><ellipse class="real-leaf-glow" cx="62.2" cy="336.2" rx="8.3" ry="4.7" transform="rotate(32.5 62.2 336.2)" /><ellipse class="real-leaf" cx="69.0" cy="336.2" rx="6.3" ry="3.3" transform="rotate(32.5 69.0 336.2)" /><ellipse class="real-leaf-glow" cx="47.0" cy="359.6" rx="8.1" ry="4.7" transform="rotate(-33.8 47.0 359.6)" /><ellipse class="real-leaf" cx="40.8" cy="359.6" rx="6.1" ry="3.3" transform="rotate(-33.8 40.8 359.6)" /><ellipse class="real-leaf-glow" cx="56.1" cy="383.1" rx="7.9" ry="4.6" transform="rotate(35.2 56.1 383.1)" /><ellipse class="real-leaf" cx="61.5" cy="383.1" rx="5.9" ry="3.2" transform="rotate(35.2 61.5 383.1)" /><ellipse class="real-leaf-glow" cx="43.9" cy="406.5" rx="7.8" ry="4.5" transform="rotate(-36.6 43.9 406.5)" /><ellipse class="real-leaf" cx="39.5" cy="406.5" rx="5.8" ry="3.1" transform="rotate(-36.6 39.5 406.5)" />
+            </g>
+            <g class="real-frond" style="--sway:5.70s;--delay:0.30s">
+              <path class="real-frond-stem" d="M100.0 108.0 C96.4 200.4, 80.3 345.6, 76.0 438.0" />
+              <ellipse class="real-leaf-glow" cx="103.1" cy="131.6" rx="9.6" ry="5.4" transform="rotate(21.3 103.1 131.6)" /><ellipse class="real-leaf" cx="107.5" cy="131.6" rx="7.6" ry="4.0" transform="rotate(21.3 107.5 131.6)" /><ellipse class="real-leaf-glow" cx="92.0" cy="155.1" rx="9.5" ry="5.3" transform="rotate(-22.6 92.0 155.1)" /><ellipse class="real-leaf" cx="86.8" cy="155.1" rx="7.5" ry="3.9" transform="rotate(-22.6 86.8 155.1)" /><ellipse class="real-leaf-glow" cx="101.7" cy="178.7" rx="9.3" ry="5.3" transform="rotate(23.9 101.7 178.7)" /><ellipse class="real-leaf" cx="107.7" cy="178.7" rx="7.3" ry="3.9" transform="rotate(23.9 107.7 178.7)" /><ellipse class="real-leaf-glow" cx="87.5" cy="202.3" rx="9.2" ry="5.2" transform="rotate(-25.1 87.5 202.3)" /><ellipse class="real-leaf" cx="80.8" cy="202.3" rx="7.2" ry="3.8" transform="rotate(-25.1 80.8 202.3)" /><ellipse class="real-leaf-glow" cx="99.5" cy="225.9" rx="9.0" ry="5.1" transform="rotate(26.4 99.5 225.9)" /><ellipse class="real-leaf" cx="106.6" cy="225.9" rx="7.0" ry="3.7" transform="rotate(26.4 106.6 225.9)" /><ellipse class="real-leaf-glow" cx="83.3" cy="249.4" rx="8.9" ry="5.0" transform="rotate(-27.7 83.3 249.4)" /><ellipse class="real-leaf" cx="75.9" cy="249.4" rx="6.9" ry="3.6" transform="rotate(-27.7 75.9 249.4)" /><ellipse class="real-leaf-glow" cx="96.5" cy="273.0" rx="8.7" ry="4.9" transform="rotate(29.0 96.5 273.0)" /><ellipse class="real-leaf" cx="104.0" cy="273.0" rx="6.7" ry="3.5" transform="rotate(29.0 104.0 273.0)" /><ellipse class="real-leaf-glow" cx="79.8" cy="296.6" rx="8.5" ry="4.9" transform="rotate(-30.3 79.8 296.6)" /><ellipse class="real-leaf" cx="72.4" cy="296.6" rx="6.5" ry="3.5" transform="rotate(-30.3 72.4 296.6)" /><ellipse class="real-leaf-glow" cx="92.5" cy="320.1" rx="8.4" ry="4.8" transform="rotate(31.6 92.5 320.1)" /><ellipse class="real-leaf" cx="99.6" cy="320.1" rx="6.4" ry="3.4" transform="rotate(31.6 99.6 320.1)" /><ellipse class="real-leaf-glow" cx="76.9" cy="343.7" rx="8.2" ry="4.7" transform="rotate(-32.9 76.9 343.7)" /><ellipse class="real-leaf" cx="70.3" cy="343.7" rx="6.2" ry="3.3" transform="rotate(-32.9 70.3 343.7)" /><ellipse class="real-leaf-glow" cx="87.7" cy="367.3" rx="8.1" ry="4.6" transform="rotate(34.1 87.7 367.3)" /><ellipse class="real-leaf" cx="93.7" cy="367.3" rx="6.1" ry="3.2" transform="rotate(34.1 93.7 367.3)" /><ellipse class="real-leaf-glow" cx="74.6" cy="390.9" rx="7.9" ry="4.6" transform="rotate(-35.4 74.6 390.9)" /><ellipse class="real-leaf" cx="69.3" cy="390.9" rx="5.9" ry="3.2" transform="rotate(-35.4 69.3 390.9)" /><ellipse class="real-leaf-glow" cx="82.3" cy="414.4" rx="7.8" ry="4.5" transform="rotate(36.7 82.3 414.4)" /><ellipse class="real-leaf" cx="86.7" cy="414.4" rx="5.8" ry="3.1" transform="rotate(36.7 86.7 414.4)" />
+            </g>
+            <g class="real-frond" style="--sway:6.05s;--delay:0.45s">
+              <path class="real-frond-stem" d="M130.0 96.0 C127.3 194.6, 115.2 349.4, 112.0 448.0" />
+              <ellipse class="real-leaf-glow" cx="133.5" cy="119.5" rx="9.7" ry="5.4" transform="rotate(21.2 133.5 119.5)" /><ellipse class="real-leaf" cx="137.8" cy="119.5" rx="7.7" ry="4.0" transform="rotate(21.2 137.8 119.5)" /><ellipse class="real-leaf-glow" cx="123.0" cy="142.9" rx="9.5" ry="5.4" transform="rotate(-22.4 123.0 142.9)" /><ellipse class="real-leaf" cx="117.9" cy="142.9" rx="7.5" ry="4.0" transform="rotate(-22.4 117.9 142.9)" /><ellipse class="real-leaf-glow" cx="132.9" cy="166.4" rx="9.4" ry="5.3" transform="rotate(23.6 132.9 166.4)" /><ellipse class="real-leaf" cx="138.7" cy="166.4" rx="7.4" ry="3.9" transform="rotate(23.6 138.7 166.4)" /><ellipse class="real-leaf-glow" cx="119.4" cy="189.9" rx="9.2" ry="5.2" transform="rotate(-24.8 119.4 189.9)" /><ellipse class="real-leaf" cx="113.0" cy="189.9" rx="7.2" ry="3.8" transform="rotate(-24.8 113.0 189.9)" /><ellipse class="real-leaf-glow" cx="131.7" cy="213.3" rx="9.1" ry="5.1" transform="rotate(26.0 131.7 213.3)" /><ellipse class="real-leaf" cx="138.7" cy="213.3" rx="7.1" ry="3.7" transform="rotate(26.0 138.7 213.3)" /><ellipse class="real-leaf-glow" cx="116.2" cy="236.8" rx="8.9" ry="5.1" transform="rotate(-27.2 116.2 236.8)" /><ellipse class="real-leaf" cx="108.9" cy="236.8" rx="6.9" ry="3.7" transform="rotate(-27.2 108.9 236.8)" /><ellipse class="real-leaf-glow" cx="129.8" cy="260.3" rx="8.8" ry="5.0" transform="rotate(28.4 129.8 260.3)" /><ellipse class="real-leaf" cx="137.3" cy="260.3" rx="6.8" ry="3.6" transform="rotate(28.4 137.3 260.3)" /><ellipse class="real-leaf-glow" cx="113.6" cy="283.7" rx="8.6" ry="4.9" transform="rotate(-29.6 113.6 283.7)" /><ellipse class="real-leaf" cx="106.1" cy="283.7" rx="6.6" ry="3.5" transform="rotate(-29.6 106.1 283.7)" /><ellipse class="real-leaf-glow" cx="127.1" cy="307.2" rx="8.5" ry="4.8" transform="rotate(30.8 127.1 307.2)" /><ellipse class="real-leaf" cx="134.5" cy="307.2" rx="6.5" ry="3.4" transform="rotate(30.8 134.5 307.2)" /><ellipse class="real-leaf-glow" cx="111.6" cy="330.7" rx="8.3" ry="4.8" transform="rotate(-32.0 111.6 330.7)" /><ellipse class="real-leaf" cx="104.6" cy="330.7" rx="6.3" ry="3.4" transform="rotate(-32.0 104.6 330.7)" /><ellipse class="real-leaf-glow" cx="123.8" cy="354.1" rx="8.2" ry="4.7" transform="rotate(33.2 123.8 354.1)" /><ellipse class="real-leaf" cx="130.2" cy="354.1" rx="6.2" ry="3.3" transform="rotate(33.2 130.2 354.1)" /><ellipse class="real-leaf-glow" cx="110.1" cy="377.6" rx="8.0" ry="4.6" transform="rotate(-34.4 110.1 377.6)" /><ellipse class="real-leaf" cx="104.3" cy="377.6" rx="6.0" ry="3.2" transform="rotate(-34.4 104.3 377.6)" /><ellipse class="real-leaf-glow" cx="119.8" cy="401.1" rx="7.9" ry="4.5" transform="rotate(35.6 119.8 401.1)" /><ellipse class="real-leaf" cx="124.9" cy="401.1" rx="5.9" ry="3.1" transform="rotate(35.6 124.9 401.1)" /><ellipse class="real-leaf-glow" cx="109.0" cy="424.5" rx="7.7" ry="4.5" transform="rotate(-36.8 109.0 424.5)" /><ellipse class="real-leaf" cx="104.7" cy="424.5" rx="5.7" ry="3.1" transform="rotate(-36.8 104.7 424.5)" />
+            </g>
+            <g class="real-frond" style="--sway:6.40s;--delay:0.60s">
+              <path class="real-frond-stem" d="M162.0 90.0 C159.9 193.6, 150.5 356.4, 148.0 460.0" />
+              <ellipse class="real-leaf-glow" cx="165.7" cy="113.1" rx="9.7" ry="5.4" transform="rotate(21.1 165.7 113.1)" /><ellipse class="real-leaf" cx="169.9" cy="113.1" rx="7.7" ry="4.0" transform="rotate(21.1 169.9 113.1)" /><ellipse class="real-leaf-glow" cx="155.6" cy="136.2" rx="9.5" ry="5.4" transform="rotate(-22.2 155.6 136.2)" /><ellipse class="real-leaf" cx="150.6" cy="136.2" rx="7.5" ry="4.0" transform="rotate(-22.2 150.6 136.2)" /><ellipse class="real-leaf-glow" cx="165.6" cy="159.4" rx="9.4" ry="5.3" transform="rotate(23.4 165.6 159.4)" /><ellipse class="real-leaf" cx="171.3" cy="159.4" rx="7.4" ry="3.9" transform="rotate(23.4 171.3 159.4)" /><ellipse class="real-leaf-glow" cx="152.7" cy="182.5" rx="9.2" ry="5.2" transform="rotate(-24.5 152.7 182.5)" /><ellipse class="real-leaf" cx="146.4" cy="182.5" rx="7.2" ry="3.8" transform="rotate(-24.5 146.4 182.5)" /><ellipse class="real-leaf-glow" cx="165.0" cy="205.6" rx="9.1" ry="5.2" transform="rotate(25.6 165.0 205.6)" /><ellipse class="real-leaf" cx="171.8" cy="205.6" rx="7.1" ry="3.8" transform="rotate(25.6 171.8 205.6)" /><ellipse class="real-leaf-glow" cx="150.1" cy="228.8" rx="9.0" ry="5.1" transform="rotate(-26.8 150.1 228.8)" /><ellipse class="real-leaf" cx="142.9" cy="228.8" rx="7.0" ry="3.7" transform="rotate(-26.8 142.9 228.8)" /><ellipse class="real-leaf-glow" cx="163.9" cy="251.9" rx="8.8" ry="5.0" transform="rotate(27.9 163.9 251.9)" /><ellipse class="real-leaf" cx="171.3" cy="251.9" rx="6.8" ry="3.6" transform="rotate(27.9 171.3 251.9)" /><ellipse class="real-leaf-glow" cx="148.1" cy="275.0" rx="8.7" ry="4.9" transform="rotate(-29.0 148.1 275.0)" /><ellipse class="real-leaf" cx="140.6" cy="275.0" rx="6.7" ry="3.5" transform="rotate(-29.0 140.6 275.0)" /><ellipse class="real-leaf-glow" cx="162.1" cy="298.1" rx="8.6" ry="4.9" transform="rotate(30.1 162.1 298.1)" /><ellipse class="real-leaf" cx="169.5" cy="298.1" rx="6.6" ry="3.5" transform="rotate(30.1 169.5 298.1)" /><ellipse class="real-leaf-glow" cx="146.5" cy="321.2" rx="8.4" ry="4.8" transform="rotate(-31.2 146.5 321.2)" /><ellipse class="real-leaf" cx="139.3" cy="321.2" rx="6.4" ry="3.4" transform="rotate(-31.2 139.3 321.2)" /><ellipse class="real-leaf-glow" cx="159.6" cy="344.4" rx="8.3" ry="4.7" transform="rotate(32.4 159.6 344.4)" /><ellipse class="real-leaf" cx="166.4" cy="344.4" rx="6.3" ry="3.3" transform="rotate(32.4 166.4 344.4)" /><ellipse class="real-leaf-glow" cx="145.5" cy="367.5" rx="8.1" ry="4.7" transform="rotate(-33.5 145.5 367.5)" /><ellipse class="real-leaf" cx="139.2" cy="367.5" rx="6.1" ry="3.3" transform="rotate(-33.5 139.2 367.5)" /><ellipse class="real-leaf-glow" cx="156.6" cy="390.6" rx="8.0" ry="4.6" transform="rotate(34.6 156.6 390.6)" /><ellipse class="real-leaf" cx="162.3" cy="390.6" rx="6.0" ry="3.2" transform="rotate(34.6 162.3 390.6)" /><ellipse class="real-leaf-glow" cx="144.9" cy="413.8" rx="7.9" ry="4.5" transform="rotate(-35.8 144.9 413.8)" /><ellipse class="real-leaf" cx="139.9" cy="413.8" rx="5.9" ry="3.1" transform="rotate(-35.8 139.9 413.8)" /><ellipse class="real-leaf-glow" cx="153.3" cy="436.9" rx="7.7" ry="4.5" transform="rotate(36.9 153.3 436.9)" /><ellipse class="real-leaf" cx="157.5" cy="436.9" rx="5.7" ry="3.1" transform="rotate(36.9 157.5 436.9)" />
+            </g>
+            <g class="real-frond" style="--sway:5.00s;--delay:0.75s">
+              <path class="real-frond-stem" d="M196.0 84.0 C194.8 192.1, 189.4 361.9, 188.0 470.0" />
+              <ellipse class="real-leaf-glow" cx="199.9" cy="106.7" rx="9.7" ry="5.4" transform="rotate(21.1 199.9 106.7)" /><ellipse class="real-leaf" cx="204.1" cy="106.7" rx="7.7" ry="4.0" transform="rotate(21.1 204.1 106.7)" /><ellipse class="real-leaf-glow" cx="190.3" cy="129.4" rx="9.5" ry="5.4" transform="rotate(-22.1 190.3 129.4)" /><ellipse class="real-leaf" cx="185.4" cy="129.4" rx="7.5" ry="4.0" transform="rotate(-22.1 185.4 129.4)" /><ellipse class="real-leaf-glow" cx="200.5" cy="152.1" rx="9.4" ry="5.3" transform="rotate(23.2 200.5 152.1)" /><ellipse class="real-leaf" cx="206.1" cy="152.1" rx="7.4" ry="3.9" transform="rotate(23.2 206.1 152.1)" /><ellipse class="real-leaf-glow" cx="188.2" cy="174.8" rx="9.3" ry="5.2" transform="rotate(-24.2 188.2 174.8)" /><ellipse class="real-leaf" cx="182.0" cy="174.8" rx="7.3" ry="3.8" transform="rotate(-24.2 182.0 174.8)" /><ellipse class="real-leaf-glow" cx="200.7" cy="197.5" rx="9.2" ry="5.2" transform="rotate(25.3 200.7 197.5)" /><ellipse class="real-leaf" cx="207.4" cy="197.5" rx="7.2" ry="3.8" transform="rotate(25.3 207.4 197.5)" /><ellipse class="real-leaf-glow" cx="186.4" cy="220.2" rx="9.0" ry="5.1" transform="rotate(-26.4 186.4 220.2)" /><ellipse class="real-leaf" cx="179.3" cy="220.2" rx="7.0" ry="3.7" transform="rotate(-26.4 179.3 220.2)" /><ellipse class="real-leaf-glow" cx="200.4" cy="242.9" rx="8.9" ry="5.0" transform="rotate(27.4 200.4 242.9)" /><ellipse class="real-leaf" cx="207.7" cy="242.9" rx="6.9" ry="3.6" transform="rotate(27.4 207.7 242.9)" /><ellipse class="real-leaf-glow" cx="185.1" cy="265.6" rx="8.8" ry="5.0" transform="rotate(-28.5 185.1 265.6)" /><ellipse class="real-leaf" cx="177.6" cy="265.6" rx="6.8" ry="3.6" transform="rotate(-28.5 177.6 265.6)" /><ellipse class="real-leaf-glow" cx="199.6" cy="288.4" rx="8.6" ry="4.9" transform="rotate(29.5 199.6 288.4)" /><ellipse class="real-leaf" cx="207.0" cy="288.4" rx="6.6" ry="3.5" transform="rotate(29.5 207.0 288.4)" /><ellipse class="real-leaf-glow" cx="184.2" cy="311.1" rx="8.5" ry="4.9" transform="rotate(-30.6 184.2 311.1)" /><ellipse class="real-leaf" cx="176.9" cy="311.1" rx="6.5" ry="3.5" transform="rotate(-30.6 176.9 311.1)" /><ellipse class="real-leaf-glow" cx="198.2" cy="333.8" rx="8.4" ry="4.8" transform="rotate(31.6 198.2 333.8)" /><ellipse class="real-leaf" cx="205.2" cy="333.8" rx="6.4" ry="3.4" transform="rotate(31.6 205.2 333.8)" /><ellipse class="real-leaf-glow" cx="183.9" cy="356.5" rx="8.2" ry="4.7" transform="rotate(-32.7 183.9 356.5)" /><ellipse class="real-leaf" cx="177.2" cy="356.5" rx="6.2" ry="3.3" transform="rotate(-32.7 177.2 356.5)" /><ellipse class="real-leaf-glow" cx="196.3" cy="379.2" rx="8.1" ry="4.7" transform="rotate(33.8 196.3 379.2)" /><ellipse class="real-leaf" cx="202.5" cy="379.2" rx="6.1" ry="3.3" transform="rotate(33.8 202.5 379.2)" /><ellipse class="real-leaf-glow" cx="184.0" cy="401.9" rx="8.0" ry="4.6" transform="rotate(-34.8 184.0 401.9)" /><ellipse class="real-leaf" cx="178.4" cy="401.9" rx="6.0" ry="3.2" transform="rotate(-34.8 178.4 401.9)" /><ellipse class="real-leaf-glow" cx="194.0" cy="424.6" rx="7.9" ry="4.5" transform="rotate(35.9 194.0 424.6)" /><ellipse class="real-leaf" cx="198.9" cy="424.6" rx="5.9" ry="3.1" transform="rotate(35.9 198.9 424.6)" /><ellipse class="real-leaf-glow" cx="184.3" cy="447.3" rx="7.7" ry="4.5" transform="rotate(-36.9 184.3 447.3)" /><ellipse class="real-leaf" cx="180.1" cy="447.3" rx="5.7" ry="3.1" transform="rotate(-36.9 180.1 447.3)" />
+            </g>
+            <g class="real-frond" style="--sway:5.35s;--delay:0.90s">
+              <path class="real-frond-stem" d="M230.0 82.0 C229.4 193.4, 226.7 368.6, 226.0 480.0" />
+              <ellipse class="real-leaf-glow" cx="234.1" cy="105.4" rx="9.7" ry="5.4" transform="rotate(21.1 234.1 105.4)" /><ellipse class="real-leaf" cx="238.3" cy="105.4" rx="7.7" ry="4.0" transform="rotate(21.1 238.3 105.4)" /><ellipse class="real-leaf-glow" cx="224.7" cy="128.8" rx="9.5" ry="5.4" transform="rotate(-22.1 224.7 128.8)" /><ellipse class="real-leaf" cx="219.7" cy="128.8" rx="7.5" ry="4.0" transform="rotate(-22.1 219.7 128.8)" /><ellipse class="real-leaf-glow" cx="235.0" cy="152.2" rx="9.4" ry="5.3" transform="rotate(23.2 235.0 152.2)" /><ellipse class="real-leaf" cx="240.6" cy="152.2" rx="7.4" ry="3.9" transform="rotate(23.2 240.6 152.2)" /><ellipse class="real-leaf-glow" cx="223.0" cy="175.6" rx="9.3" ry="5.2" transform="rotate(-24.2 223.0 175.6)" /><ellipse class="real-leaf" cx="216.8" cy="175.6" rx="7.3" ry="3.8" transform="rotate(-24.2 216.8 175.6)" /><ellipse class="real-leaf-glow" cx="235.7" cy="199.1" rx="9.2" ry="5.2" transform="rotate(25.3 235.7 199.1)" /><ellipse class="real-leaf" cx="242.4" cy="199.1" rx="7.2" ry="3.8" transform="rotate(25.3 242.4 199.1)" /><ellipse class="real-leaf-glow" cx="221.7" cy="222.5" rx="9.0" ry="5.1" transform="rotate(-26.4 221.7 222.5)" /><ellipse class="real-leaf" cx="214.6" cy="222.5" rx="7.0" ry="3.7" transform="rotate(-26.4 214.6 222.5)" /><ellipse class="real-leaf-glow" cx="235.9" cy="245.9" rx="8.9" ry="5.0" transform="rotate(27.4 235.9 245.9)" /><ellipse class="real-leaf" cx="243.2" cy="245.9" rx="6.9" ry="3.6" transform="rotate(27.4 243.2 245.9)" /><ellipse class="real-leaf-glow" cx="220.8" cy="269.3" rx="8.8" ry="5.0" transform="rotate(-28.5 220.8 269.3)" /><ellipse class="real-leaf" cx="213.3" cy="269.3" rx="6.8" ry="3.6" transform="rotate(-28.5 213.3 269.3)" /><ellipse class="real-leaf-glow" cx="235.5" cy="292.7" rx="8.6" ry="4.9" transform="rotate(29.5 235.5 292.7)" /><ellipse class="real-leaf" cx="243.0" cy="292.7" rx="6.6" ry="3.5" transform="rotate(29.5 243.0 292.7)" /><ellipse class="real-leaf-glow" cx="220.4" cy="316.1" rx="8.5" ry="4.9" transform="rotate(-30.6 220.4 316.1)" /><ellipse class="real-leaf" cx="213.1" cy="316.1" rx="6.5" ry="3.5" transform="rotate(-30.6 213.1 316.1)" /><ellipse class="real-leaf-glow" cx="234.6" cy="339.5" rx="8.4" ry="4.8" transform="rotate(31.6 234.6 339.5)" /><ellipse class="real-leaf" cx="241.7" cy="339.5" rx="6.4" ry="3.4" transform="rotate(31.6 241.7 339.5)" /><ellipse class="real-leaf-glow" cx="220.6" cy="362.9" rx="8.2" ry="4.7" transform="rotate(-32.7 220.6 362.9)" /><ellipse class="real-leaf" cx="213.9" cy="362.9" rx="6.2" ry="3.3" transform="rotate(-32.7 213.9 362.9)" /><ellipse class="real-leaf-glow" cx="233.2" cy="386.4" rx="8.1" ry="4.7" transform="rotate(33.8 233.2 386.4)" /><ellipse class="real-leaf" cx="239.4" cy="386.4" rx="6.1" ry="3.3" transform="rotate(33.8 239.4 386.4)" /><ellipse class="real-leaf-glow" cx="221.2" cy="409.8" rx="8.0" ry="4.6" transform="rotate(-34.8 221.2 409.8)" /><ellipse class="real-leaf" cx="215.6" cy="409.8" rx="6.0" ry="3.2" transform="rotate(-34.8 215.6 409.8)" /><ellipse class="real-leaf-glow" cx="231.5" cy="433.2" rx="7.9" ry="4.5" transform="rotate(35.9 231.5 433.2)" /><ellipse class="real-leaf" cx="236.4" cy="433.2" rx="5.9" ry="3.1" transform="rotate(35.9 236.4 433.2)" /><ellipse class="real-leaf-glow" cx="222.0" cy="456.6" rx="7.7" ry="4.5" transform="rotate(-36.9 222.0 456.6)" /><ellipse class="real-leaf" cx="217.8" cy="456.6" rx="5.7" ry="3.1" transform="rotate(-36.9 217.8 456.6)" />
+            </g>
+            <g class="real-frond" style="--sway:5.70s;--delay:0.00s">
+              <path class="real-frond-stem" d="M264.0 82.0 C264.3 194.6, 265.6 371.4, 266.0 484.0" />
+              <ellipse class="real-leaf-glow" cx="268.3" cy="105.6" rx="9.7" ry="5.4" transform="rotate(21.1 268.3 105.6)" /><ellipse class="real-leaf" cx="272.6" cy="105.6" rx="7.7" ry="4.0" transform="rotate(21.1 272.6 105.6)" /><ellipse class="real-leaf-glow" cx="259.2" cy="129.3" rx="9.5" ry="5.4" transform="rotate(-22.1 259.2 129.3)" /><ellipse class="real-leaf" cx="254.3" cy="129.3" rx="7.5" ry="4.0" transform="rotate(-22.1 254.3 129.3)" /><ellipse class="real-leaf-glow" cx="269.9" cy="152.9" rx="9.4" ry="5.3" transform="rotate(23.2 269.9 152.9)" /><ellipse class="real-leaf" cx="275.5" cy="152.9" rx="7.4" ry="3.9" transform="rotate(23.2 275.5 152.9)" /><ellipse class="real-leaf-glow" cx="258.2" cy="176.6" rx="9.3" ry="5.2" transform="rotate(-24.2 258.2 176.6)" /><ellipse class="real-leaf" cx="252.0" cy="176.6" rx="7.3" ry="3.8" transform="rotate(-24.2 252.0 176.6)" /><ellipse class="real-leaf-glow" cx="271.2" cy="200.2" rx="9.2" ry="5.2" transform="rotate(25.3 271.2 200.2)" /><ellipse class="real-leaf" cx="277.9" cy="200.2" rx="7.2" ry="3.8" transform="rotate(25.3 277.9 200.2)" /><ellipse class="real-leaf-glow" cx="257.5" cy="223.9" rx="9.0" ry="5.1" transform="rotate(-26.4 257.5 223.9)" /><ellipse class="real-leaf" cx="250.5" cy="223.9" rx="7.0" ry="3.7" transform="rotate(-26.4 250.5 223.9)" /><ellipse class="real-leaf-glow" cx="272.1" cy="247.5" rx="8.9" ry="5.0" transform="rotate(27.4 272.1 247.5)" /><ellipse class="real-leaf" cx="279.4" cy="247.5" rx="6.9" ry="3.6" transform="rotate(27.4 279.4 247.5)" /><ellipse class="real-leaf-glow" cx="257.4" cy="271.2" rx="8.8" ry="5.0" transform="rotate(-28.5 257.4 271.2)" /><ellipse class="real-leaf" cx="249.9" cy="271.2" rx="6.8" ry="3.6" transform="rotate(-28.5 249.9 271.2)" /><ellipse class="real-leaf-glow" cx="272.5" cy="294.8" rx="8.6" ry="4.9" transform="rotate(29.5 272.5 294.8)" /><ellipse class="real-leaf" cx="279.9" cy="294.8" rx="6.6" ry="3.5" transform="rotate(29.5 279.9 294.8)" /><ellipse class="real-leaf-glow" cx="257.8" cy="318.5" rx="8.5" ry="4.9" transform="rotate(-30.6 257.8 318.5)" /><ellipse class="real-leaf" cx="250.4" cy="318.5" rx="6.5" ry="3.5" transform="rotate(-30.6 250.4 318.5)" /><ellipse class="real-leaf-glow" cx="272.3" cy="342.1" rx="8.4" ry="4.8" transform="rotate(31.6 272.3 342.1)" /><ellipse class="real-leaf" cx="279.4" cy="342.1" rx="6.4" ry="3.4" transform="rotate(31.6 279.4 342.1)" /><ellipse class="real-leaf-glow" cx="258.7" cy="365.8" rx="8.2" ry="4.7" transform="rotate(-32.7 258.7 365.8)" /><ellipse class="real-leaf" cx="252.0" cy="365.8" rx="6.2" ry="3.3" transform="rotate(-32.7 252.0 365.8)" /><ellipse class="real-leaf-glow" cx="271.7" cy="389.4" rx="8.1" ry="4.7" transform="rotate(33.8 271.7 389.4)" /><ellipse class="real-leaf" cx="277.9" cy="389.4" rx="6.1" ry="3.3" transform="rotate(33.8 277.9 389.4)" /><ellipse class="real-leaf-glow" cx="260.0" cy="413.1" rx="8.0" ry="4.6" transform="rotate(-34.8 260.0 413.1)" /><ellipse class="real-leaf" cx="254.4" cy="413.1" rx="6.0" ry="3.2" transform="rotate(-34.8 254.4 413.1)" /><ellipse class="real-leaf-glow" cx="270.7" cy="436.7" rx="7.9" ry="4.5" transform="rotate(35.9 270.7 436.7)" /><ellipse class="real-leaf" cx="275.6" cy="436.7" rx="5.9" ry="3.1" transform="rotate(35.9 275.6 436.7)" /><ellipse class="real-leaf-glow" cx="261.6" cy="460.4" rx="7.7" ry="4.5" transform="rotate(-36.9 261.6 460.4)" /><ellipse class="real-leaf" cx="257.4" cy="460.4" rx="5.7" ry="3.1" transform="rotate(-36.9 257.4 460.4)" />
+            </g>
+            <g class="real-frond" style="--sway:6.05s;--delay:0.15s">
+              <path class="real-frond-stem" d="M300.0 84.0 C300.9 193.8, 304.9 366.2, 306.0 476.0" />
+              <ellipse class="real-leaf-glow" cx="304.5" cy="107.1" rx="9.7" ry="5.4" transform="rotate(21.1 304.5 107.1)" /><ellipse class="real-leaf" cx="308.7" cy="107.1" rx="7.7" ry="4.0" transform="rotate(21.1 308.7 107.1)" /><ellipse class="real-leaf-glow" cx="295.6" cy="130.1" rx="9.5" ry="5.4" transform="rotate(-22.1 295.6 130.1)" /><ellipse class="real-leaf" cx="290.7" cy="130.1" rx="7.5" ry="4.0" transform="rotate(-22.1 290.7 130.1)" /><ellipse class="real-leaf-glow" cx="306.5" cy="153.2" rx="9.4" ry="5.3" transform="rotate(23.2 306.5 153.2)" /><ellipse class="real-leaf" cx="312.1" cy="153.2" rx="7.4" ry="3.9" transform="rotate(23.2 312.1 153.2)" /><ellipse class="real-leaf-glow" cx="295.0" cy="176.2" rx="9.3" ry="5.2" transform="rotate(-24.2 295.0 176.2)" /><ellipse class="real-leaf" cx="288.8" cy="176.2" rx="7.3" ry="3.8" transform="rotate(-24.2 288.8 176.2)" /><ellipse class="real-leaf-glow" cx="308.2" cy="199.3" rx="9.2" ry="5.2" transform="rotate(25.3 308.2 199.3)" /><ellipse class="real-leaf" cx="314.9" cy="199.3" rx="7.2" ry="3.8" transform="rotate(25.3 314.9 199.3)" /><ellipse class="real-leaf-glow" cx="294.8" cy="222.4" rx="9.0" ry="5.1" transform="rotate(-26.4 294.8 222.4)" /><ellipse class="real-leaf" cx="287.7" cy="222.4" rx="7.0" ry="3.7" transform="rotate(-26.4 287.7 222.4)" /><ellipse class="real-leaf-glow" cx="309.6" cy="245.4" rx="8.9" ry="5.0" transform="rotate(27.4 309.6 245.4)" /><ellipse class="real-leaf" cx="316.9" cy="245.4" rx="6.9" ry="3.6" transform="rotate(27.4 316.9 245.4)" /><ellipse class="real-leaf-glow" cx="295.1" cy="268.5" rx="8.8" ry="5.0" transform="rotate(-28.5 295.1 268.5)" /><ellipse class="real-leaf" cx="287.6" cy="268.5" rx="6.8" ry="3.6" transform="rotate(-28.5 287.6 268.5)" /><ellipse class="real-leaf-glow" cx="310.4" cy="291.5" rx="8.6" ry="4.9" transform="rotate(29.5 310.4 291.5)" /><ellipse class="real-leaf" cx="317.9" cy="291.5" rx="6.6" ry="3.5" transform="rotate(29.5 317.9 291.5)" /><ellipse class="real-leaf-glow" cx="296.0" cy="314.6" rx="8.5" ry="4.9" transform="rotate(-30.6 296.0 314.6)" /><ellipse class="real-leaf" cx="288.6" cy="314.6" rx="6.5" ry="3.5" transform="rotate(-30.6 288.6 314.6)" /><ellipse class="real-leaf-glow" cx="310.8" cy="337.6" rx="8.4" ry="4.8" transform="rotate(31.6 310.8 337.6)" /><ellipse class="real-leaf" cx="317.8" cy="337.6" rx="6.4" ry="3.4" transform="rotate(31.6 317.8 337.6)" /><ellipse class="real-leaf-glow" cx="297.4" cy="360.7" rx="8.2" ry="4.7" transform="rotate(-32.7 297.4 360.7)" /><ellipse class="real-leaf" cx="290.7" cy="360.7" rx="6.2" ry="3.3" transform="rotate(-32.7 290.7 360.7)" /><ellipse class="real-leaf-glow" cx="310.6" cy="383.8" rx="8.1" ry="4.7" transform="rotate(33.8 310.6 383.8)" /><ellipse class="real-leaf" cx="316.8" cy="383.8" rx="6.1" ry="3.3" transform="rotate(33.8 316.8 383.8)" /><ellipse class="real-leaf-glow" cx="299.2" cy="406.8" rx="8.0" ry="4.6" transform="rotate(-34.8 299.2 406.8)" /><ellipse class="real-leaf" cx="293.6" cy="406.8" rx="6.0" ry="3.2" transform="rotate(-34.8 293.6 406.8)" /><ellipse class="real-leaf-glow" cx="310.2" cy="429.9" rx="7.9" ry="4.5" transform="rotate(35.9 310.2 429.9)" /><ellipse class="real-leaf" cx="315.1" cy="429.9" rx="5.9" ry="3.1" transform="rotate(35.9 315.1 429.9)" /><ellipse class="real-leaf-glow" cx="301.4" cy="452.9" rx="7.7" ry="4.5" transform="rotate(-36.9 301.4 452.9)" /><ellipse class="real-leaf" cx="297.1" cy="452.9" rx="5.7" ry="3.1" transform="rotate(-36.9 297.1 452.9)" />
+            </g>
+            <g class="real-frond" style="--sway:6.40s;--delay:0.30s">
+              <path class="real-frond-stem" d="M334.0 90.0 C335.8 195.3, 343.8 360.7, 346.0 466.0" />
+              <ellipse class="real-leaf-glow" cx="338.8" cy="113.5" rx="9.7" ry="5.4" transform="rotate(21.1 338.8 113.5)" /><ellipse class="real-leaf" cx="343.1" cy="113.5" rx="7.7" ry="4.0" transform="rotate(21.1 343.1 113.5)" /><ellipse class="real-leaf-glow" cx="330.1" cy="137.0" rx="9.5" ry="5.4" transform="rotate(-22.2 330.1 137.0)" /><ellipse class="real-leaf" cx="325.1" cy="137.0" rx="7.5" ry="4.0" transform="rotate(-22.2 325.1 137.0)" /><ellipse class="real-leaf-glow" cx="341.6" cy="160.5" rx="9.4" ry="5.3" transform="rotate(23.4 341.6 160.5)" /><ellipse class="real-leaf" cx="347.3" cy="160.5" rx="7.4" ry="3.9" transform="rotate(23.4 347.3 160.5)" /><ellipse class="real-leaf-glow" cx="330.2" cy="184.0" rx="9.2" ry="5.2" transform="rotate(-24.5 330.2 184.0)" /><ellipse class="real-leaf" cx="323.9" cy="184.0" rx="7.2" ry="3.8" transform="rotate(-24.5 323.9 184.0)" /><ellipse class="real-leaf-glow" cx="344.1" cy="207.5" rx="9.1" ry="5.2" transform="rotate(25.6 344.1 207.5)" /><ellipse class="real-leaf" cx="350.9" cy="207.5" rx="7.1" ry="3.8" transform="rotate(25.6 350.9 207.5)" /><ellipse class="real-leaf-glow" cx="330.8" cy="231.0" rx="9.0" ry="5.1" transform="rotate(-26.8 330.8 231.0)" /><ellipse class="real-leaf" cx="323.6" cy="231.0" rx="7.0" ry="3.7" transform="rotate(-26.8 323.6 231.0)" /><ellipse class="real-leaf-glow" cx="346.2" cy="254.5" rx="8.8" ry="5.0" transform="rotate(27.9 346.2 254.5)" /><ellipse class="real-leaf" cx="353.6" cy="254.5" rx="6.8" ry="3.6" transform="rotate(27.9 353.6 254.5)" /><ellipse class="real-leaf-glow" cx="332.0" cy="278.0" rx="8.7" ry="4.9" transform="rotate(-29.0 332.0 278.0)" /><ellipse class="real-leaf" cx="324.5" cy="278.0" rx="6.7" ry="3.5" transform="rotate(-29.0 324.5 278.0)" /><ellipse class="real-leaf-glow" cx="347.7" cy="301.5" rx="8.6" ry="4.9" transform="rotate(30.1 347.7 301.5)" /><ellipse class="real-leaf" cx="355.1" cy="301.5" rx="6.6" ry="3.5" transform="rotate(30.1 355.1 301.5)" /><ellipse class="real-leaf-glow" cx="333.9" cy="325.0" rx="8.4" ry="4.8" transform="rotate(-31.2 333.9 325.0)" /><ellipse class="real-leaf" cx="326.7" cy="325.0" rx="6.4" ry="3.4" transform="rotate(-31.2 326.7 325.0)" /><ellipse class="real-leaf-glow" cx="348.7" cy="348.5" rx="8.3" ry="4.7" transform="rotate(32.4 348.7 348.5)" /><ellipse class="real-leaf" cx="355.5" cy="348.5" rx="6.3" ry="3.3" transform="rotate(32.4 355.5 348.5)" /><ellipse class="real-leaf-glow" cx="336.4" cy="372.0" rx="8.1" ry="4.7" transform="rotate(-33.5 336.4 372.0)" /><ellipse class="real-leaf" cx="330.0" cy="372.0" rx="6.1" ry="3.3" transform="rotate(-33.5 330.0 372.0)" /><ellipse class="real-leaf-glow" cx="349.2" cy="395.5" rx="8.0" ry="4.6" transform="rotate(34.6 349.2 395.5)" /><ellipse class="real-leaf" cx="355.0" cy="395.5" rx="6.0" ry="3.2" transform="rotate(34.6 355.0 395.5)" /><ellipse class="real-leaf-glow" cx="339.3" cy="419.0" rx="7.9" ry="4.5" transform="rotate(-35.8 339.3 419.0)" /><ellipse class="real-leaf" cx="334.3" cy="419.0" rx="5.9" ry="3.1" transform="rotate(-35.8 334.3 419.0)" /><ellipse class="real-leaf-glow" cx="349.4" cy="442.5" rx="7.7" ry="4.5" transform="rotate(36.9 349.4 442.5)" /><ellipse class="real-leaf" cx="353.7" cy="442.5" rx="5.7" ry="3.1" transform="rotate(36.9 353.7 442.5)" />
+            </g>
+            <g class="real-frond" style="--sway:5.00s;--delay:0.45s">
+              <path class="real-frond-stem" d="M368.0 98.0 C370.7 197.7, 382.8 354.3, 386.0 454.0" />
+              <ellipse class="real-leaf-glow" cx="373.2" cy="121.7" rx="9.7" ry="5.4" transform="rotate(21.2 373.2 121.7)" /><ellipse class="real-leaf" cx="377.5" cy="121.7" rx="7.7" ry="4.0" transform="rotate(21.2 377.5 121.7)" /><ellipse class="real-leaf-glow" cx="364.8" cy="145.5" rx="9.5" ry="5.4" transform="rotate(-22.4 364.8 145.5)" /><ellipse class="real-leaf" cx="359.6" cy="145.5" rx="7.5" ry="4.0" transform="rotate(-22.4 359.6 145.5)" /><ellipse class="real-leaf-glow" cx="376.8" cy="169.2" rx="9.4" ry="5.3" transform="rotate(23.6 376.8 169.2)" /><ellipse class="real-leaf" cx="382.7" cy="169.2" rx="7.4" ry="3.9" transform="rotate(23.6 382.7 169.2)" /><ellipse class="real-leaf-glow" cx="365.6" cy="192.9" rx="9.2" ry="5.2" transform="rotate(-24.8 365.6 192.9)" /><ellipse class="real-leaf" cx="359.2" cy="192.9" rx="7.2" ry="3.8" transform="rotate(-24.8 359.2 192.9)" /><ellipse class="real-leaf-glow" cx="380.2" cy="216.7" rx="9.1" ry="5.1" transform="rotate(26.0 380.2 216.7)" /><ellipse class="real-leaf" cx="387.2" cy="216.7" rx="7.1" ry="3.7" transform="rotate(26.0 387.2 216.7)" /><ellipse class="real-leaf-glow" cx="367.1" cy="240.4" rx="8.9" ry="5.1" transform="rotate(-27.2 367.1 240.4)" /><ellipse class="real-leaf" cx="359.8" cy="240.4" rx="6.9" ry="3.7" transform="rotate(-27.2 359.8 240.4)" /><ellipse class="real-leaf-glow" cx="383.1" cy="264.1" rx="8.8" ry="5.0" transform="rotate(28.4 383.1 264.1)" /><ellipse class="real-leaf" cx="390.6" cy="264.1" rx="6.8" ry="3.6" transform="rotate(28.4 390.6 264.1)" /><ellipse class="real-leaf-glow" cx="369.4" cy="287.9" rx="8.6" ry="4.9" transform="rotate(-29.6 369.4 287.9)" /><ellipse class="real-leaf" cx="361.9" cy="287.9" rx="6.6" ry="3.5" transform="rotate(-29.6 361.9 287.9)" /><ellipse class="real-leaf-glow" cx="385.5" cy="311.6" rx="8.5" ry="4.8" transform="rotate(30.8 385.5 311.6)" /><ellipse class="real-leaf" cx="392.8" cy="311.6" rx="6.5" ry="3.4" transform="rotate(30.8 392.8 311.6)" /><ellipse class="real-leaf-glow" cx="372.5" cy="335.3" rx="8.3" ry="4.8" transform="rotate(-32.0 372.5 335.3)" /><ellipse class="real-leaf" cx="365.5" cy="335.3" rx="6.3" ry="3.4" transform="rotate(-32.0 365.5 335.3)" /><ellipse class="real-leaf-glow" cx="387.2" cy="359.1" rx="8.2" ry="4.7" transform="rotate(33.2 387.2 359.1)" /><ellipse class="real-leaf" cx="393.7" cy="359.1" rx="6.2" ry="3.3" transform="rotate(33.2 393.7 359.1)" /><ellipse class="real-leaf-glow" cx="376.2" cy="382.8" rx="8.0" ry="4.6" transform="rotate(-34.4 376.2 382.8)" /><ellipse class="real-leaf" cx="370.3" cy="382.8" rx="6.0" ry="3.2" transform="rotate(-34.4 370.3 382.8)" /><ellipse class="real-leaf-glow" cx="388.5" cy="406.5" rx="7.9" ry="4.5" transform="rotate(35.6 388.5 406.5)" /><ellipse class="real-leaf" cx="393.6" cy="406.5" rx="5.9" ry="3.1" transform="rotate(35.6 393.6 406.5)" /><ellipse class="real-leaf-glow" cx="380.3" cy="430.3" rx="7.7" ry="4.5" transform="rotate(-36.8 380.3 430.3)" /><ellipse class="real-leaf" cx="376.0" cy="430.3" rx="5.7" ry="3.1" transform="rotate(-36.8 376.0 430.3)" />
+            </g>
+            <g class="real-frond" style="--sway:5.35s;--delay:0.60s">
+              <path class="real-frond-stem" d="M402.0 110.0 C405.6 202.4, 421.7 347.6, 426.0 440.0" />
+              <ellipse class="real-leaf-glow" cx="407.6" cy="133.6" rx="9.6" ry="5.4" transform="rotate(21.3 407.6 133.6)" /><ellipse class="real-leaf" cx="412.0" cy="133.6" rx="7.6" ry="4.0" transform="rotate(21.3 412.0 133.6)" /><ellipse class="real-leaf-glow" cx="399.5" cy="157.1" rx="9.5" ry="5.3" transform="rotate(-22.6 399.5 157.1)" /><ellipse class="real-leaf" cx="394.2" cy="157.1" rx="7.5" ry="3.9" transform="rotate(-22.6 394.2 157.1)" /><ellipse class="real-leaf-glow" cx="412.3" cy="180.7" rx="9.3" ry="5.3" transform="rotate(23.9 412.3 180.7)" /><ellipse class="real-leaf" cx="418.3" cy="180.7" rx="7.3" ry="3.9" transform="rotate(23.9 418.3 180.7)" /><ellipse class="real-leaf-glow" cx="401.3" cy="204.3" rx="9.2" ry="5.2" transform="rotate(-25.1 401.3 204.3)" /><ellipse class="real-leaf" cx="394.6" cy="204.3" rx="7.2" ry="3.8" transform="rotate(-25.1 394.6 204.3)" /><ellipse class="real-leaf-glow" cx="416.7" cy="227.9" rx="9.0" ry="5.1" transform="rotate(26.4 416.7 227.9)" /><ellipse class="real-leaf" cx="423.8" cy="227.9" rx="7.0" ry="3.7" transform="rotate(26.4 423.8 227.9)" /><ellipse class="real-leaf-glow" cx="403.9" cy="251.4" rx="8.9" ry="5.0" transform="rotate(-27.7 403.9 251.4)" /><ellipse class="real-leaf" cx="396.5" cy="251.4" rx="6.9" ry="3.6" transform="rotate(-27.7 396.5 251.4)" /><ellipse class="real-leaf-glow" cx="420.5" cy="275.0" rx="8.7" ry="4.9" transform="rotate(29.0 420.5 275.0)" /><ellipse class="real-leaf" cx="428.0" cy="275.0" rx="6.7" ry="3.5" transform="rotate(29.0 428.0 275.0)" /><ellipse class="real-leaf-glow" cx="407.4" cy="298.6" rx="8.5" ry="4.9" transform="rotate(-30.3 407.4 298.6)" /><ellipse class="real-leaf" cx="400.0" cy="298.6" rx="6.5" ry="3.5" transform="rotate(-30.3 400.0 298.6)" /><ellipse class="real-leaf-glow" cx="423.7" cy="322.1" rx="8.4" ry="4.8" transform="rotate(31.6 423.7 322.1)" /><ellipse class="real-leaf" cx="430.8" cy="322.1" rx="6.4" ry="3.4" transform="rotate(31.6 430.8 322.1)" /><ellipse class="real-leaf-glow" cx="411.8" cy="345.7" rx="8.2" ry="4.7" transform="rotate(-32.9 411.8 345.7)" /><ellipse class="real-leaf" cx="405.2" cy="345.7" rx="6.2" ry="3.3" transform="rotate(-32.9 405.2 345.7)" /><ellipse class="real-leaf-glow" cx="426.3" cy="369.3" rx="8.1" ry="4.6" transform="rotate(34.1 426.3 369.3)" /><ellipse class="real-leaf" cx="432.3" cy="369.3" rx="6.1" ry="3.2" transform="rotate(34.1 432.3 369.3)" /><ellipse class="real-leaf-glow" cx="417.0" cy="392.9" rx="7.9" ry="4.6" transform="rotate(-35.4 417.0 392.9)" /><ellipse class="real-leaf" cx="411.7" cy="392.9" rx="5.9" ry="3.2" transform="rotate(-35.4 411.7 392.9)" /><ellipse class="real-leaf-glow" cx="428.5" cy="416.4" rx="7.8" ry="4.5" transform="rotate(36.7 428.5 416.4)" /><ellipse class="real-leaf" cx="432.9" cy="416.4" rx="5.8" ry="3.1" transform="rotate(36.7 432.9 416.4)" />
+            </g>
+            <g class="real-frond" style="--sway:5.70s;--delay:0.75s">
+              <path class="real-frond-stem" d="M430.0 128.0 C434.5 212.0, 454.6 344.0, 460.0 428.0" />
+              <ellipse class="real-leaf-glow" cx="436.2" cy="151.1" rx="9.6" ry="5.4" transform="rotate(21.4 436.2 151.1)" /><ellipse class="real-leaf" cx="440.6" cy="151.1" rx="7.6" ry="4.0" transform="rotate(21.4 440.6 151.1)" /><ellipse class="real-leaf-glow" cx="428.3" cy="174.2" rx="9.5" ry="5.3" transform="rotate(-22.8 428.3 174.2)" /><ellipse class="real-leaf" cx="423.0" cy="174.2" rx="7.5" ry="3.9" transform="rotate(-22.8 423.0 174.2)" /><ellipse class="real-leaf-glow" cx="442.0" cy="197.2" rx="9.3" ry="5.2" transform="rotate(24.2 442.0 197.2)" /><ellipse class="real-leaf" cx="448.1" cy="197.2" rx="7.3" ry="3.8" transform="rotate(24.2 448.1 197.2)" /><ellipse class="real-leaf-glow" cx="431.2" cy="220.3" rx="9.1" ry="5.2" transform="rotate(-25.5 431.2 220.3)" /><ellipse class="real-leaf" cx="424.4" cy="220.3" rx="7.1" ry="3.8" transform="rotate(-25.5 424.4 220.3)" /><ellipse class="real-leaf-glow" cx="447.5" cy="243.4" rx="9.0" ry="5.1" transform="rotate(26.9 447.5 243.4)" /><ellipse class="real-leaf" cx="454.8" cy="243.4" rx="7.0" ry="3.7" transform="rotate(26.9 454.8 243.4)" /><ellipse class="real-leaf-glow" cx="435.1" cy="266.5" rx="8.8" ry="5.0" transform="rotate(-28.3 435.1 266.5)" /><ellipse class="real-leaf" cx="427.7" cy="266.5" rx="6.8" ry="3.6" transform="rotate(-28.3 427.7 266.5)" /><ellipse class="real-leaf-glow" cx="452.5" cy="289.5" rx="8.6" ry="4.9" transform="rotate(29.7 452.5 289.5)" /><ellipse class="real-leaf" cx="459.9" cy="289.5" rx="6.6" ry="3.5" transform="rotate(29.7 459.9 289.5)" /><ellipse class="real-leaf-glow" cx="440.2" cy="312.6" rx="8.4" ry="4.8" transform="rotate(-31.1 440.2 312.6)" /><ellipse class="real-leaf" cx="432.9" cy="312.6" rx="6.4" ry="3.4" transform="rotate(-31.1 432.9 312.6)" /><ellipse class="real-leaf-glow" cx="456.7" cy="335.7" rx="8.3" ry="4.7" transform="rotate(32.5 456.7 335.7)" /><ellipse class="real-leaf" cx="463.5" cy="335.7" rx="6.3" ry="3.3" transform="rotate(32.5 463.5 335.7)" /><ellipse class="real-leaf-glow" cx="446.2" cy="358.8" rx="8.1" ry="4.7" transform="rotate(-33.8 446.2 358.8)" /><ellipse class="real-leaf" cx="440.1" cy="358.8" rx="6.1" ry="3.3" transform="rotate(-33.8 440.1 358.8)" /><ellipse class="real-leaf-glow" cx="460.2" cy="381.8" rx="7.9" ry="4.6" transform="rotate(35.2 460.2 381.8)" /><ellipse class="real-leaf" cx="465.6" cy="381.8" rx="5.9" ry="3.2" transform="rotate(35.2 465.6 381.8)" /><ellipse class="real-leaf-glow" cx="453.0" cy="404.9" rx="7.8" ry="4.5" transform="rotate(-36.6 453.0 404.9)" /><ellipse class="real-leaf" cx="448.5" cy="404.9" rx="5.8" ry="3.1" transform="rotate(-36.6 448.5 404.9)" />
+            </g>
+            <g class="real-frond" style="--sway:6.05s;--delay:0.90s">
+              <path class="real-frond-stem" d="M456.0 150.0 C461.7 222.8, 487.2 337.2, 494.0 410.0" />
+              <ellipse class="real-leaf-glow" cx="463.2" cy="173.6" rx="9.6" ry="5.4" transform="rotate(21.6 463.2 173.6)" /><ellipse class="real-leaf" cx="467.8" cy="173.6" rx="7.6" ry="4.0" transform="rotate(21.6 467.8 173.6)" /><ellipse class="real-leaf-glow" cx="456.0" cy="197.3" rx="9.4" ry="5.3" transform="rotate(-23.3 456.0 197.3)" /><ellipse class="real-leaf" cx="450.3" cy="197.3" rx="7.4" ry="3.9" transform="rotate(-23.3 450.3 197.3)" /><ellipse class="real-leaf-glow" cx="471.4" cy="220.9" rx="9.2" ry="5.2" transform="rotate(24.9 471.4 220.9)" /><ellipse class="real-leaf" cx="477.9" cy="220.9" rx="7.2" ry="3.8" transform="rotate(24.9 477.9 220.9)" /><ellipse class="real-leaf-glow" cx="461.1" cy="244.5" rx="9.0" ry="5.1" transform="rotate(-26.5 461.1 244.5)" /><ellipse class="real-leaf" cx="454.0" cy="244.5" rx="7.0" ry="3.7" transform="rotate(-26.5 454.0 244.5)" /><ellipse class="real-leaf-glow" cx="479.2" cy="268.2" rx="8.8" ry="5.0" transform="rotate(28.2 479.2 268.2)" /><ellipse class="real-leaf" cx="486.6" cy="268.2" rx="6.8" ry="3.6" transform="rotate(28.2 486.6 268.2)" /><ellipse class="real-leaf-glow" cx="467.8" cy="291.8" rx="8.6" ry="4.9" transform="rotate(-29.8 467.8 291.8)" /><ellipse class="real-leaf" cx="460.4" cy="291.8" rx="6.6" ry="3.5" transform="rotate(-29.8 460.4 291.8)" /><ellipse class="real-leaf-glow" cx="486.0" cy="315.5" rx="8.4" ry="4.8" transform="rotate(31.5 486.0 315.5)" /><ellipse class="real-leaf" cx="493.2" cy="315.5" rx="6.4" ry="3.4" transform="rotate(31.5 493.2 315.5)" /><ellipse class="real-leaf-glow" cx="476.1" cy="339.1" rx="8.2" ry="4.7" transform="rotate(-33.1 476.1 339.1)" /><ellipse class="real-leaf" cx="469.6" cy="339.1" rx="6.2" ry="3.3" transform="rotate(-33.1 469.6 339.1)" /><ellipse class="real-leaf-glow" cx="492.0" cy="362.7" rx="8.0" ry="4.6" transform="rotate(34.7 492.0 362.7)" /><ellipse class="real-leaf" cx="497.7" cy="362.7" rx="6.0" ry="3.2" transform="rotate(34.7 497.7 362.7)" /><ellipse class="real-leaf-glow" cx="485.5" cy="386.4" rx="7.8" ry="4.5" transform="rotate(-36.4 485.5 386.4)" /><ellipse class="real-leaf" cx="480.9" cy="386.4" rx="5.8" ry="3.1" transform="rotate(-36.4 480.9 386.4)" />
+            </g>
+            <g class="real-frond" style="--sway:6.40s;--delay:0.00s">
+              <path class="real-frond-stem" d="M116.0 146.0 C113.9 224.4, 104.5 347.6, 102.0 426.0" />
+              <ellipse class="real-leaf-glow" cx="119.7" cy="169.3" rx="9.6" ry="5.4" transform="rotate(21.5 119.7 169.3)" /><ellipse class="real-leaf" cx="124.2" cy="169.3" rx="7.6" ry="4.0" transform="rotate(21.5 124.2 169.3)" /><ellipse class="real-leaf-glow" cx="108.6" cy="192.7" rx="9.4" ry="5.3" transform="rotate(-23.0 108.6 192.7)" /><ellipse class="real-leaf" cx="103.1" cy="192.7" rx="7.4" ry="3.9" transform="rotate(-23.0 103.1 192.7)" /><ellipse class="real-leaf-glow" cx="119.4" cy="216.0" rx="9.2" ry="5.2" transform="rotate(24.5 119.4 216.0)" /><ellipse class="real-leaf" cx="125.7" cy="216.0" rx="7.2" ry="3.8" transform="rotate(24.5 125.7 216.0)" /><ellipse class="real-leaf-glow" cx="104.9" cy="239.3" rx="9.1" ry="5.1" transform="rotate(-26.0 104.9 239.3)" /><ellipse class="real-leaf" cx="98.0" cy="239.3" rx="7.1" ry="3.7" transform="rotate(-26.0 98.0 239.3)" /><ellipse class="real-leaf-glow" cx="118.1" cy="262.7" rx="8.9" ry="5.0" transform="rotate(27.5 118.1 262.7)" /><ellipse class="real-leaf" cx="125.5" cy="262.7" rx="6.9" ry="3.6" transform="rotate(27.5 125.5 262.7)" /><ellipse class="real-leaf-glow" cx="102.1" cy="286.0" rx="8.7" ry="4.9" transform="rotate(-29.0 102.1 286.0)" /><ellipse class="real-leaf" cx="94.6" cy="286.0" rx="6.7" ry="3.5" transform="rotate(-29.0 94.6 286.0)" /><ellipse class="real-leaf-glow" cx="115.7" cy="309.3" rx="8.5" ry="4.9" transform="rotate(30.5 115.7 309.3)" /><ellipse class="real-leaf" cx="123.1" cy="309.3" rx="6.5" ry="3.5" transform="rotate(30.5 123.1 309.3)" /><ellipse class="real-leaf-glow" cx="100.1" cy="332.7" rx="8.3" ry="4.8" transform="rotate(-32.0 100.1 332.7)" /><ellipse class="real-leaf" cx="93.2" cy="332.7" rx="6.3" ry="3.4" transform="rotate(-32.0 93.2 332.7)" /><ellipse class="real-leaf-glow" cx="112.2" cy="356.0" rx="8.1" ry="4.7" transform="rotate(33.5 112.2 356.0)" /><ellipse class="real-leaf" cx="118.5" cy="356.0" rx="6.1" ry="3.3" transform="rotate(33.5 118.5 356.0)" /><ellipse class="real-leaf-glow" cx="99.1" cy="379.3" rx="8.0" ry="4.6" transform="rotate(-35.0 99.1 379.3)" /><ellipse class="real-leaf" cx="93.6" cy="379.3" rx="6.0" ry="3.2" transform="rotate(-35.0 93.6 379.3)" /><ellipse class="real-leaf-glow" cx="107.8" cy="402.7" rx="7.8" ry="4.5" transform="rotate(36.5 107.8 402.7)" /><ellipse class="real-leaf" cx="112.4" cy="402.7" rx="5.8" ry="3.1" transform="rotate(36.5 112.4 402.7)" />
+            </g>
+            <g class="real-frond" style="--sway:5.00s;--delay:0.15s">
+              <path class="real-frond-stem" d="M154.0 150.0 C152.5 235.4, 145.8 369.6, 144.0 455.0" />
+              <ellipse class="real-leaf-glow" cx="157.9" cy="173.5" rx="9.6" ry="5.4" transform="rotate(21.4 157.9 173.5)" /><ellipse class="real-leaf" cx="162.3" cy="173.5" rx="7.6" ry="4.0" transform="rotate(21.4 162.3 173.5)" /><ellipse class="real-leaf-glow" cx="147.4" cy="196.9" rx="9.5" ry="5.3" transform="rotate(-22.8 147.4 196.9)" /><ellipse class="real-leaf" cx="142.1" cy="196.9" rx="7.5" ry="3.9" transform="rotate(-22.8 142.1 196.9)" /><ellipse class="real-leaf-glow" cx="158.2" cy="220.4" rx="9.3" ry="5.2" transform="rotate(24.2 158.2 220.4)" /><ellipse class="real-leaf" cx="164.4" cy="220.4" rx="7.3" ry="3.8" transform="rotate(24.2 164.4 220.4)" /><ellipse class="real-leaf-glow" cx="144.5" cy="243.8" rx="9.1" ry="5.2" transform="rotate(-25.5 144.5 243.8)" /><ellipse class="real-leaf" cx="137.7" cy="243.8" rx="7.1" ry="3.8" transform="rotate(-25.5 137.7 243.8)" /><ellipse class="real-leaf-glow" cx="157.8" cy="267.3" rx="9.0" ry="5.1" transform="rotate(26.9 157.8 267.3)" /><ellipse class="real-leaf" cx="165.1" cy="267.3" rx="7.0" ry="3.7" transform="rotate(26.9 165.1 267.3)" /><ellipse class="real-leaf-glow" cx="142.3" cy="290.8" rx="8.8" ry="5.0" transform="rotate(-28.3 142.3 290.8)" /><ellipse class="real-leaf" cx="134.9" cy="290.8" rx="6.8" ry="3.6" transform="rotate(-28.3 134.9 290.8)" /><ellipse class="real-leaf-glow" cx="156.5" cy="314.2" rx="8.6" ry="4.9" transform="rotate(29.7 156.5 314.2)" /><ellipse class="real-leaf" cx="163.9" cy="314.2" rx="6.6" ry="3.5" transform="rotate(29.7 163.9 314.2)" /><ellipse class="real-leaf-glow" cx="141.0" cy="337.7" rx="8.4" ry="4.8" transform="rotate(-31.1 141.0 337.7)" /><ellipse class="real-leaf" cx="133.7" cy="337.7" rx="6.4" ry="3.4" transform="rotate(-31.1 133.7 337.7)" /><ellipse class="real-leaf-glow" cx="154.2" cy="361.2" rx="8.3" ry="4.7" transform="rotate(32.5 154.2 361.2)" /><ellipse class="real-leaf" cx="161.0" cy="361.2" rx="6.3" ry="3.3" transform="rotate(32.5 161.0 361.2)" /><ellipse class="real-leaf-glow" cx="140.4" cy="384.6" rx="8.1" ry="4.7" transform="rotate(-33.8 140.4 384.6)" /><ellipse class="real-leaf" cx="134.2" cy="384.6" rx="6.1" ry="3.3" transform="rotate(-33.8 134.2 384.6)" /><ellipse class="real-leaf-glow" cx="151.1" cy="408.1" rx="7.9" ry="4.6" transform="rotate(35.2 151.1 408.1)" /><ellipse class="real-leaf" cx="156.4" cy="408.1" rx="5.9" ry="3.2" transform="rotate(35.2 156.4 408.1)" /><ellipse class="real-leaf-glow" cx="140.4" cy="431.5" rx="7.8" ry="4.5" transform="rotate(-36.6 140.4 431.5)" /><ellipse class="real-leaf" cx="135.9" cy="431.5" rx="5.8" ry="3.1" transform="rotate(-36.6 135.9 431.5)" />
+            </g>
+            <g class="real-frond" style="--sway:5.35s;--delay:0.30s">
+              <path class="real-frond-stem" d="M194.0 150.0 C193.2 239.6, 189.9 380.4, 189.0 470.0" />
+              <ellipse class="real-leaf-glow" cx="198.1" cy="172.9" rx="9.6" ry="5.4" transform="rotate(21.3 198.1 172.9)" /><ellipse class="real-leaf" cx="202.5" cy="172.9" rx="7.6" ry="4.0" transform="rotate(21.3 202.5 172.9)" /><ellipse class="real-leaf-glow" cx="188.2" cy="195.7" rx="9.5" ry="5.3" transform="rotate(-22.6 188.2 195.7)" /><ellipse class="real-leaf" cx="183.0" cy="195.7" rx="7.5" ry="3.9" transform="rotate(-22.6 183.0 195.7)" /><ellipse class="real-leaf-glow" cx="199.1" cy="218.6" rx="9.3" ry="5.3" transform="rotate(23.9 199.1 218.6)" /><ellipse class="real-leaf" cx="205.1" cy="218.6" rx="7.3" ry="3.9" transform="rotate(23.9 205.1 218.6)" /><ellipse class="real-leaf-glow" cx="186.1" cy="241.4" rx="9.2" ry="5.2" transform="rotate(-25.1 186.1 241.4)" /><ellipse class="real-leaf" cx="179.5" cy="241.4" rx="7.2" ry="3.8" transform="rotate(-25.1 179.5 241.4)" /><ellipse class="real-leaf-glow" cx="199.5" cy="264.3" rx="9.0" ry="5.1" transform="rotate(26.4 199.5 264.3)" /><ellipse class="real-leaf" cx="206.6" cy="264.3" rx="7.0" ry="3.7" transform="rotate(26.4 206.6 264.3)" /><ellipse class="real-leaf-glow" cx="184.7" cy="287.1" rx="8.9" ry="5.0" transform="rotate(-27.7 184.7 287.1)" /><ellipse class="real-leaf" cx="177.3" cy="287.1" rx="6.9" ry="3.6" transform="rotate(-27.7 177.3 287.1)" /><ellipse class="real-leaf-glow" cx="199.2" cy="310.0" rx="8.7" ry="4.9" transform="rotate(29.0 199.2 310.0)" /><ellipse class="real-leaf" cx="206.7" cy="310.0" rx="6.7" ry="3.5" transform="rotate(29.0 206.7 310.0)" /><ellipse class="real-leaf-glow" cx="183.9" cy="332.9" rx="8.5" ry="4.9" transform="rotate(-30.3 183.9 332.9)" /><ellipse class="real-leaf" cx="176.5" cy="332.9" rx="6.5" ry="3.5" transform="rotate(-30.3 176.5 332.9)" /><ellipse class="real-leaf-glow" cx="198.1" cy="355.7" rx="8.4" ry="4.8" transform="rotate(31.6 198.1 355.7)" /><ellipse class="real-leaf" cx="205.2" cy="355.7" rx="6.4" ry="3.4" transform="rotate(31.6 205.2 355.7)" /><ellipse class="real-leaf-glow" cx="183.9" cy="378.6" rx="8.2" ry="4.7" transform="rotate(-32.9 183.9 378.6)" /><ellipse class="real-leaf" cx="177.3" cy="378.6" rx="6.2" ry="3.3" transform="rotate(-32.9 177.3 378.6)" /><ellipse class="real-leaf-glow" cx="196.2" cy="401.4" rx="8.1" ry="4.6" transform="rotate(34.1 196.2 401.4)" /><ellipse class="real-leaf" cx="202.2" cy="401.4" rx="6.1" ry="3.2" transform="rotate(34.1 202.2 401.4)" /><ellipse class="real-leaf-glow" cx="184.6" cy="424.3" rx="7.9" ry="4.6" transform="rotate(-35.4 184.6 424.3)" /><ellipse class="real-leaf" cx="179.3" cy="424.3" rx="5.9" ry="3.2" transform="rotate(-35.4 179.3 424.3)" /><ellipse class="real-leaf-glow" cx="193.8" cy="447.1" rx="7.8" ry="4.5" transform="rotate(36.7 193.8 447.1)" /><ellipse class="real-leaf" cx="198.2" cy="447.1" rx="5.8" ry="3.1" transform="rotate(36.7 198.2 447.1)" />
+            </g>
+            <g class="real-frond" style="--sway:5.70s;--delay:0.45s">
+              <path class="real-frond-stem" d="M238.0 150.0 C238.0 243.5, 238.0 390.5, 238.0 484.0" />
+              <ellipse class="real-leaf-glow" cx="242.4" cy="173.9" rx="9.6" ry="5.4" transform="rotate(21.3 242.4 173.9)" /><ellipse class="real-leaf" cx="246.8" cy="173.9" rx="7.6" ry="4.0" transform="rotate(21.3 246.8 173.9)" /><ellipse class="real-leaf-glow" cx="232.8" cy="197.7" rx="9.5" ry="5.3" transform="rotate(-22.6 232.8 197.7)" /><ellipse class="real-leaf" cx="227.5" cy="197.7" rx="7.5" ry="3.9" transform="rotate(-22.6 227.5 197.7)" /><ellipse class="real-leaf-glow" cx="244.0" cy="221.6" rx="9.3" ry="5.3" transform="rotate(23.9 244.0 221.6)" /><ellipse class="real-leaf" cx="250.0" cy="221.6" rx="7.3" ry="3.9" transform="rotate(23.9 250.0 221.6)" /><ellipse class="real-leaf-glow" cx="231.4" cy="245.4" rx="9.2" ry="5.2" transform="rotate(-25.1 231.4 245.4)" /><ellipse class="real-leaf" cx="224.7" cy="245.4" rx="7.2" ry="3.8" transform="rotate(-25.1 224.7 245.4)" /><ellipse class="real-leaf-glow" cx="245.1" cy="269.3" rx="9.0" ry="5.1" transform="rotate(26.4 245.1 269.3)" /><ellipse class="real-leaf" cx="252.2" cy="269.3" rx="7.0" ry="3.7" transform="rotate(26.4 252.2 269.3)" /><ellipse class="real-leaf-glow" cx="230.6" cy="293.1" rx="8.9" ry="5.0" transform="rotate(-27.7 230.6 293.1)" /><ellipse class="real-leaf" cx="223.2" cy="293.1" rx="6.9" ry="3.6" transform="rotate(-27.7 223.2 293.1)" /><ellipse class="real-leaf-glow" cx="245.5" cy="317.0" rx="8.7" ry="4.9" transform="rotate(29.0 245.5 317.0)" /><ellipse class="real-leaf" cx="253.0" cy="317.0" rx="6.7" ry="3.5" transform="rotate(29.0 253.0 317.0)" /><ellipse class="real-leaf-glow" cx="230.6" cy="340.9" rx="8.5" ry="4.9" transform="rotate(-30.3 230.6 340.9)" /><ellipse class="real-leaf" cx="223.2" cy="340.9" rx="6.5" ry="3.5" transform="rotate(-30.3 223.2 340.9)" /><ellipse class="real-leaf-glow" cx="245.1" cy="364.7" rx="8.4" ry="4.8" transform="rotate(31.6 245.1 364.7)" /><ellipse class="real-leaf" cx="252.2" cy="364.7" rx="6.4" ry="3.4" transform="rotate(31.6 252.2 364.7)" /><ellipse class="real-leaf-glow" cx="231.4" cy="388.6" rx="8.2" ry="4.7" transform="rotate(-32.9 231.4 388.6)" /><ellipse class="real-leaf" cx="224.7" cy="388.6" rx="6.2" ry="3.3" transform="rotate(-32.9 224.7 388.6)" /><ellipse class="real-leaf-glow" cx="244.0" cy="412.4" rx="8.1" ry="4.6" transform="rotate(34.1 244.0 412.4)" /><ellipse class="real-leaf" cx="250.0" cy="412.4" rx="6.1" ry="3.2" transform="rotate(34.1 250.0 412.4)" /><ellipse class="real-leaf-glow" cx="232.8" cy="436.3" rx="7.9" ry="4.6" transform="rotate(-35.4 232.8 436.3)" /><ellipse class="real-leaf" cx="227.5" cy="436.3" rx="5.9" ry="3.2" transform="rotate(-35.4 227.5 436.3)" /><ellipse class="real-leaf-glow" cx="242.4" cy="460.1" rx="7.8" ry="4.5" transform="rotate(36.7 242.4 460.1)" /><ellipse class="real-leaf" cx="246.8" cy="460.1" rx="5.8" ry="3.1" transform="rotate(36.7 246.8 460.1)" />
+            </g>
+            <g class="real-frond" style="--sway:6.05s;--delay:0.60s">
+              <path class="real-frond-stem" d="M282.0 150.0 C282.8 242.4, 286.1 387.6, 287.0 480.0" />
+              <ellipse class="real-leaf-glow" cx="286.7" cy="173.6" rx="9.6" ry="5.4" transform="rotate(21.3 286.7 173.6)" /><ellipse class="real-leaf" cx="291.0" cy="173.6" rx="7.6" ry="4.0" transform="rotate(21.3 291.0 173.6)" /><ellipse class="real-leaf-glow" cx="277.3" cy="197.1" rx="9.5" ry="5.3" transform="rotate(-22.6 277.3 197.1)" /><ellipse class="real-leaf" cx="272.1" cy="197.1" rx="7.5" ry="3.9" transform="rotate(-22.6 272.1 197.1)" /><ellipse class="real-leaf-glow" cx="288.9" cy="220.7" rx="9.3" ry="5.3" transform="rotate(23.9 288.9 220.7)" /><ellipse class="real-leaf" cx="294.9" cy="220.7" rx="7.3" ry="3.9" transform="rotate(23.9 294.9 220.7)" /><ellipse class="real-leaf-glow" cx="276.6" cy="244.3" rx="9.2" ry="5.2" transform="rotate(-25.1 276.6 244.3)" /><ellipse class="real-leaf" cx="270.0" cy="244.3" rx="7.2" ry="3.8" transform="rotate(-25.1 270.0 244.3)" /><ellipse class="real-leaf-glow" cx="290.7" cy="267.9" rx="9.0" ry="5.1" transform="rotate(26.4 290.7 267.9)" /><ellipse class="real-leaf" cx="297.8" cy="267.9" rx="7.0" ry="3.7" transform="rotate(26.4 297.8 267.9)" /><ellipse class="real-leaf-glow" cx="276.5" cy="291.4" rx="8.9" ry="5.0" transform="rotate(-27.7 276.5 291.4)" /><ellipse class="real-leaf" cx="269.1" cy="291.4" rx="6.9" ry="3.6" transform="rotate(-27.7 269.1 291.4)" /><ellipse class="real-leaf-glow" cx="291.8" cy="315.0" rx="8.7" ry="4.9" transform="rotate(29.0 291.8 315.0)" /><ellipse class="real-leaf" cx="299.3" cy="315.0" rx="6.7" ry="3.5" transform="rotate(29.0 299.3 315.0)" /><ellipse class="real-leaf-glow" cx="277.3" cy="338.6" rx="8.5" ry="4.9" transform="rotate(-30.3 277.3 338.6)" /><ellipse class="real-leaf" cx="269.9" cy="338.6" rx="6.5" ry="3.5" transform="rotate(-30.3 269.9 338.6)" /><ellipse class="real-leaf-glow" cx="292.2" cy="362.1" rx="8.4" ry="4.8" transform="rotate(31.6 292.2 362.1)" /><ellipse class="real-leaf" cx="299.3" cy="362.1" rx="6.4" ry="3.4" transform="rotate(31.6 299.3 362.1)" /><ellipse class="real-leaf-glow" cx="278.8" cy="385.7" rx="8.2" ry="4.7" transform="rotate(-32.9 278.8 385.7)" /><ellipse class="real-leaf" cx="272.2" cy="385.7" rx="6.2" ry="3.3" transform="rotate(-32.9 272.2 385.7)" /><ellipse class="real-leaf-glow" cx="291.8" cy="409.3" rx="8.1" ry="4.6" transform="rotate(34.1 291.8 409.3)" /><ellipse class="real-leaf" cx="297.8" cy="409.3" rx="6.1" ry="3.2" transform="rotate(34.1 297.8 409.3)" /><ellipse class="real-leaf-glow" cx="281.0" cy="432.9" rx="7.9" ry="4.6" transform="rotate(-35.4 281.0 432.9)" /><ellipse class="real-leaf" cx="275.7" cy="432.9" rx="5.9" ry="3.2" transform="rotate(-35.4 275.7 432.9)" /><ellipse class="real-leaf-glow" cx="291.0" cy="456.4" rx="7.8" ry="4.5" transform="rotate(36.7 291.0 456.4)" /><ellipse class="real-leaf" cx="295.4" cy="456.4" rx="5.8" ry="3.1" transform="rotate(36.7 295.4 456.4)" />
+            </g>
+            <g class="real-frond" style="--sway:6.40s;--delay:0.75s">
+              <path class="real-frond-stem" d="M326.0 150.0 C327.5 237.9, 334.2 376.1, 336.0 464.0" />
+              <ellipse class="real-leaf-glow" cx="330.9" cy="172.4" rx="9.6" ry="5.4" transform="rotate(21.3 330.9 172.4)" /><ellipse class="real-leaf" cx="335.3" cy="172.4" rx="7.6" ry="4.0" transform="rotate(21.3 335.3 172.4)" /><ellipse class="real-leaf-glow" cx="321.9" cy="194.9" rx="9.5" ry="5.3" transform="rotate(-22.6 321.9 194.9)" /><ellipse class="real-leaf" cx="316.7" cy="194.9" rx="7.5" ry="3.9" transform="rotate(-22.6 316.7 194.9)" /><ellipse class="real-leaf-glow" cx="333.8" cy="217.3" rx="9.3" ry="5.3" transform="rotate(23.9 333.8 217.3)" /><ellipse class="real-leaf" cx="339.8" cy="217.3" rx="7.3" ry="3.9" transform="rotate(23.9 339.8 217.3)" /><ellipse class="real-leaf-glow" cx="321.8" cy="239.7" rx="9.2" ry="5.2" transform="rotate(-25.1 321.8 239.7)" /><ellipse class="real-leaf" cx="315.2" cy="239.7" rx="7.2" ry="3.8" transform="rotate(-25.1 315.2 239.7)" /><ellipse class="real-leaf-glow" cx="336.3" cy="262.1" rx="9.0" ry="5.1" transform="rotate(26.4 336.3 262.1)" /><ellipse class="real-leaf" cx="343.4" cy="262.1" rx="7.0" ry="3.7" transform="rotate(26.4 343.4 262.1)" /><ellipse class="real-leaf-glow" cx="322.5" cy="284.6" rx="8.9" ry="5.0" transform="rotate(-27.7 322.5 284.6)" /><ellipse class="real-leaf" cx="315.1" cy="284.6" rx="6.9" ry="3.6" transform="rotate(-27.7 315.1 284.6)" /><ellipse class="real-leaf-glow" cx="338.1" cy="307.0" rx="8.7" ry="4.9" transform="rotate(29.0 338.1 307.0)" /><ellipse class="real-leaf" cx="345.6" cy="307.0" rx="6.7" ry="3.5" transform="rotate(29.0 345.6 307.0)" /><ellipse class="real-leaf-glow" cx="323.9" cy="329.4" rx="8.5" ry="4.9" transform="rotate(-30.3 323.9 329.4)" /><ellipse class="real-leaf" cx="316.5" cy="329.4" rx="6.5" ry="3.5" transform="rotate(-30.3 316.5 329.4)" /><ellipse class="real-leaf-glow" cx="339.2" cy="351.9" rx="8.4" ry="4.8" transform="rotate(31.6 339.2 351.9)" /><ellipse class="real-leaf" cx="346.3" cy="351.9" rx="6.4" ry="3.4" transform="rotate(31.6 346.3 351.9)" /><ellipse class="real-leaf-glow" cx="326.2" cy="374.3" rx="8.2" ry="4.7" transform="rotate(-32.9 326.2 374.3)" /><ellipse class="real-leaf" cx="319.6" cy="374.3" rx="6.2" ry="3.3" transform="rotate(-32.9 319.6 374.3)" /><ellipse class="real-leaf-glow" cx="339.6" cy="396.7" rx="8.1" ry="4.6" transform="rotate(34.1 339.6 396.7)" /><ellipse class="real-leaf" cx="345.6" cy="396.7" rx="6.1" ry="3.2" transform="rotate(34.1 345.6 396.7)" /><ellipse class="real-leaf-glow" cx="329.2" cy="419.1" rx="7.9" ry="4.6" transform="rotate(-35.4 329.2 419.1)" /><ellipse class="real-leaf" cx="323.9" cy="419.1" rx="5.9" ry="3.2" transform="rotate(-35.4 323.9 419.1)" /><ellipse class="real-leaf-glow" cx="339.6" cy="441.6" rx="7.8" ry="4.5" transform="rotate(36.7 339.6 441.6)" /><ellipse class="real-leaf" cx="344.0" cy="441.6" rx="5.8" ry="3.1" transform="rotate(36.7 344.0 441.6)" />
+            </g>
+            <g class="real-frond" style="--sway:5.00s;--delay:0.90s">
+              <path class="real-frond-stem" d="M366.0 148.0 C368.4 229.8, 379.1 358.2, 382.0 440.0" />
+              <ellipse class="real-leaf-glow" cx="371.4" cy="170.5" rx="9.6" ry="5.4" transform="rotate(21.4 371.4 170.5)" /><ellipse class="real-leaf" cx="375.8" cy="170.5" rx="7.6" ry="4.0" transform="rotate(21.4 375.8 170.5)" /><ellipse class="real-leaf-glow" cx="362.6" cy="192.9" rx="9.5" ry="5.3" transform="rotate(-22.8 362.6 192.9)" /><ellipse class="real-leaf" cx="357.2" cy="192.9" rx="7.5" ry="3.9" transform="rotate(-22.8 357.2 192.9)" /><ellipse class="real-leaf-glow" cx="375.2" cy="215.4" rx="9.3" ry="5.2" transform="rotate(24.2 375.2 215.4)" /><ellipse class="real-leaf" cx="381.4" cy="215.4" rx="7.3" ry="3.8" transform="rotate(24.2 381.4 215.4)" /><ellipse class="real-leaf-glow" cx="363.5" cy="237.8" rx="9.1" ry="5.2" transform="rotate(-25.5 363.5 237.8)" /><ellipse class="real-leaf" cx="356.7" cy="237.8" rx="7.1" ry="3.8" transform="rotate(-25.5 356.7 237.8)" /><ellipse class="real-leaf-glow" cx="378.7" cy="260.3" rx="9.0" ry="5.1" transform="rotate(26.9 378.7 260.3)" /><ellipse class="real-leaf" cx="386.0" cy="260.3" rx="7.0" ry="3.7" transform="rotate(26.9 386.0 260.3)" /><ellipse class="real-leaf-glow" cx="365.3" cy="282.8" rx="8.8" ry="5.0" transform="rotate(-28.3 365.3 282.8)" /><ellipse class="real-leaf" cx="357.8" cy="282.8" rx="6.8" ry="3.6" transform="rotate(-28.3 357.8 282.8)" /><ellipse class="real-leaf-glow" cx="381.5" cy="305.2" rx="8.6" ry="4.9" transform="rotate(29.7 381.5 305.2)" /><ellipse class="real-leaf" cx="388.9" cy="305.2" rx="6.6" ry="3.5" transform="rotate(29.7 388.9 305.2)" /><ellipse class="real-leaf-glow" cx="368.0" cy="327.7" rx="8.4" ry="4.8" transform="rotate(-31.1 368.0 327.7)" /><ellipse class="real-leaf" cx="360.8" cy="327.7" rx="6.4" ry="3.4" transform="rotate(-31.1 360.8 327.7)" /><ellipse class="real-leaf-glow" cx="383.4" cy="350.2" rx="8.3" ry="4.7" transform="rotate(32.5 383.4 350.2)" /><ellipse class="real-leaf" cx="390.2" cy="350.2" rx="6.3" ry="3.3" transform="rotate(32.5 390.2 350.2)" /><ellipse class="real-leaf-glow" cx="371.8" cy="372.6" rx="8.1" ry="4.7" transform="rotate(-33.8 371.8 372.6)" /><ellipse class="real-leaf" cx="365.6" cy="372.6" rx="6.1" ry="3.3" transform="rotate(-33.8 365.6 372.6)" /><ellipse class="real-leaf-glow" cx="384.6" cy="395.1" rx="7.9" ry="4.6" transform="rotate(35.2 384.6 395.1)" /><ellipse class="real-leaf" cx="390.0" cy="395.1" rx="5.9" ry="3.2" transform="rotate(35.2 390.0 395.1)" /><ellipse class="real-leaf-glow" cx="376.2" cy="417.5" rx="7.8" ry="4.5" transform="rotate(-36.6 376.2 417.5)" /><ellipse class="real-leaf" cx="371.7" cy="417.5" rx="5.8" ry="3.1" transform="rotate(-36.6 371.7 417.5)" />
+            </g>
+            <g class="real-frond" style="--sway:5.35s;--delay:0.00s">
+              <path class="real-frond-stem" d="M404.0 150.0 C407.0 223.4, 420.4 338.6, 424.0 412.0" />
+              <ellipse class="real-leaf-glow" cx="410.0" cy="173.8" rx="9.6" ry="5.4" transform="rotate(21.6 410.0 173.8)" /><ellipse class="real-leaf" cx="414.6" cy="173.8" rx="7.6" ry="4.0" transform="rotate(21.6 414.6 173.8)" /><ellipse class="real-leaf-glow" cx="401.3" cy="197.6" rx="9.4" ry="5.3" transform="rotate(-23.3 401.3 197.6)" /><ellipse class="real-leaf" cx="395.6" cy="197.6" rx="7.4" ry="3.9" transform="rotate(-23.3 395.6 197.6)" /><ellipse class="real-leaf-glow" cx="415.2" cy="221.5" rx="9.2" ry="5.2" transform="rotate(24.9 415.2 221.5)" /><ellipse class="real-leaf" cx="421.7" cy="221.5" rx="7.2" ry="3.8" transform="rotate(24.9 421.7 221.5)" /><ellipse class="real-leaf-glow" cx="403.3" cy="245.3" rx="9.0" ry="5.1" transform="rotate(-26.5 403.3 245.3)" /><ellipse class="real-leaf" cx="396.2" cy="245.3" rx="7.0" ry="3.7" transform="rotate(-26.5 396.2 245.3)" /><ellipse class="real-leaf-glow" cx="419.7" cy="269.1" rx="8.8" ry="5.0" transform="rotate(28.2 419.7 269.1)" /><ellipse class="real-leaf" cx="427.2" cy="269.1" rx="6.8" ry="3.6" transform="rotate(28.2 427.2 269.1)" /><ellipse class="real-leaf-glow" cx="406.7" cy="292.9" rx="8.6" ry="4.9" transform="rotate(-29.8 406.7 292.9)" /><ellipse class="real-leaf" cx="399.2" cy="292.9" rx="6.6" ry="3.5" transform="rotate(-29.8 399.2 292.9)" /><ellipse class="real-leaf-glow" cx="423.2" cy="316.7" rx="8.4" ry="4.8" transform="rotate(31.5 423.2 316.7)" /><ellipse class="real-leaf" cx="430.3" cy="316.7" rx="6.4" ry="3.4" transform="rotate(31.5 430.3 316.7)" /><ellipse class="real-leaf-glow" cx="411.5" cy="340.5" rx="8.2" ry="4.7" transform="rotate(-33.1 411.5 340.5)" /><ellipse class="real-leaf" cx="405.0" cy="340.5" rx="6.2" ry="3.3" transform="rotate(-33.1 405.0 340.5)" /><ellipse class="real-leaf-glow" cx="425.6" cy="364.4" rx="8.0" ry="4.6" transform="rotate(34.7 425.6 364.4)" /><ellipse class="real-leaf" cx="431.3" cy="364.4" rx="6.0" ry="3.2" transform="rotate(34.7 431.3 364.4)" /><ellipse class="real-leaf-glow" cx="417.3" cy="388.2" rx="7.8" ry="4.5" transform="rotate(-36.4 417.3 388.2)" /><ellipse class="real-leaf" cx="412.7" cy="388.2" rx="5.8" ry="3.1" transform="rotate(-36.4 412.7 388.2)" />
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="section-copy center intro-copy reveal">
+        <p class="eyebrow">the threshold</p>
+        <h2>Some loves arrive like moonlight.</h2>
+        <p class="narrow center">
+          Quietly. Softly. Then all at once, they are everywhere.
+          Somewhere between Germany and Brazil, I imagine this place —
+          un lugar where distance cannot enter, and where every part of me keeps reaching for you.
+          Te pienso, mi amor. Even here, especially here.
+        </p>
+        <div class="divider"></div>
+      </div>
+    </section>
+
+    <section class="scene scenery-scene scenery-lake" aria-label="A quiet moonlit lake">
+      <div class="scenery-orb moon-reflect"></div>
+      <div class="scenery-lantern-row">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="scenery-water"></div>
+    </section>
+
+    <section class="scene admiration-scene">
+      <div class="section-copy center reveal">
+        <p class="eyebrow">the admiration grove</p>
+        <h2>What I admire in you.</h2>
+        <p class="narrow center">
+          Not just how beautiful you are — though God knows you are.
+          I admire the things deeper than that. The things that stay.
+        </p>
+
+        <div class="admiration-grid">
+          <article class="admiration-card">
+            <h3>Your softness</h3>
+            <p>
+              I admire how your heart still knows how to be gentle.
+              The world can be harsh, but you still carry tenderness in you, and that is rare.
+            </p>
+          </article>
+
+          <article class="admiration-card">
+            <h3>Your strength</h3>
+            <p>
+              I admire the way you keep going even when things feel heavy.
+              There is a quiet strength in you that does not need to shout to be real.
+            </p>
+          </article>
+
+          <article class="admiration-card">
+            <h3>Your mind</h3>
+            <p>
+              I admire the way you think, the way you feel deeply,
+              the way your presence can make a simple conversation become the best part of my day.
+            </p>
+          </article>
+
+          <article class="admiration-card">
+            <h3>Your light</h3>
+            <p>
+              I admire how your smile changes the room in my mind.
+              Even from far away, you still manage to feel like sunlight finding me.
+            </p>
+          </article>
+
+          <article class="admiration-card">
+            <h3>Your heart</h3>
+            <p>
+              I admire how much love there is in you.
+              How much care. How much sweetness. How much life.
+              It makes me want to protect that heart with both hands.
+            </p>
+          </article>
+
+          <article class="admiration-card">
+            <h3>The artist in you</h3>
+            <p>
+              I admire that your hands know how to create.
+              That you can look at the world and turn feeling into form.
+              There is something sacred about a person who notices beauty deeply enough to draw it.
+            </p>
+          </article>
+
+          <article class="admiration-card">
+            <h3>You, entirely</h3>
+            <p>
+              Most of all, I admire that you are you.
+              Not some perfect fantasy — but you, with your real self, your real soul,
+              and all the beautiful things that make me keep choosing you.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene scenery-scene scenery-rootwalk" aria-label="A root path beneath the willow">
+      <div class="rootwalk-line"></div>
+      <div class="rootwalk-glow g1"></div>
+      <div class="rootwalk-glow g2"></div>
+      <div class="rootwalk-glow g3"></div>
+    </section>
+
+    <section class="scene memory-scene">
+      <div class="section-copy center reveal">
+        <p class="eyebrow">the ancient willow</p>
+        <h2>It grows because of you.</h2>
+        <p class="narrow center">
+          The willow keeps what I could never bear to lose:
+          the little moments, the waiting, the hope, and the way loving you made something quiet in me come alive.
+        </p>
+
+        <div class="memory-garden">
+          <div class="memory-crown"></div>
+          <div class="memory-trunk"></div>
+          <div class="memory-root mr1"></div>
+          <div class="memory-root mr2"></div>
+          <div class="memory-root mr3"></div>
+          <div class="memory-pond"></div>
+          <button id="barkRune" class="bark-rune" aria-label="A small carved rune">♡</button>
+
+          <div class="memory-branch mb1"></div>
+          <div class="memory-branch mb2"></div>
+          <div class="memory-branch mb3"></div>
+          <div class="memory-branch mb4"></div>
+          <div class="memory-branch mb5"></div>
+
+          <div class="memory-lantern ml1">
+            <img src="photo1.jpg" alt="Memory one" onerror="this.style.display='none';" />
+            <span>the smile that stayed</span>
+          </div>
+
+          <div class="memory-lantern ml2">
+            <img src="photo2.jpg" alt="Memory two" onerror="this.style.display='none';" />
+            <span>a soft little forever</span>
+          </div>
+
+          <div class="memory-lantern ml3">
+            <img src="main.jpg" alt="Her portrait" onerror="this.style.display='none';" />
+            <span>you, my love</span>
+          </div>
+
+          <div class="memory-lantern ml4">
+            <img src="photo3.jpg" alt="Memory three" onerror="this.style.display='none';" />
+            <span>proof that this is real</span>
+          </div>
+
+          <div class="memory-lantern ml5">
+            <img src="photo4.jpg" alt="Memory four" onerror="this.style.display='none';" />
+            <span>something worth keeping</span>
+          </div>
+        </div>
+
+        <div class="memory-copy center narrow">
+          <p>
+            Some memories do not disappear after the day ends.
+            They hang inside you like lanterns.
+            They glow a little every time your heart remembers where it has been warm.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene scenery-scene scenery-lanterns" aria-label="Ancient lanterns glowing in the mist">
+      <div class="big-lantern bl1"></div>
+      <div class="big-lantern bl2"></div>
+      <div class="big-lantern bl3"></div>
+      <div class="mist-ring"></div>
+    </section>
+
+    <section class="scene portal-scene">
+      <div class="section-copy center reveal">
+        <p class="eyebrow">the memory windows</p>
+        <h2>Some moments never really leave.</h2>
+        <p class="narrow center">
+          They just become gentler places inside us.
+        </p>
+
+        <div class="portal-grid">
+          <div class="portal-card">
+            <div class="portal-frame">
+              <img src="main.jpg" alt="A photo of her" onerror="this.alt='Add main.jpg beside this file';" />
+            </div>
+            <p class="portal-caption">
+              This smile stayed with me longer than the moment did.
+            </p>
+          </div>
+
+          <div class="portal-card">
+            <div class="portal-frame">
+              <img src="photo4.jpg" alt="A favorite memory" onerror="this.alt='Add photo4.jpg beside this file';" />
+            </div>
+            <p class="portal-caption">
+              Some memories feel like little lanterns. I keep this one lit.
+            </p>
+          </div>
+
+          <div class="portal-card">
+            <div class="portal-frame">
+              <img src="photo2.jpg" alt="Another favorite memory" onerror="this.alt='Add photo2.jpg beside this file';" />
+            </div>
+            <p class="portal-caption">
+              This is the kind of moment my heart keeps walking back to.
+            </p>
+          </div>
+
+          <div class="portal-card">
+            <div class="portal-frame">
+              <img src="photo3.jpg" alt="Another soft memory" onerror="this.alt='Add photo3.jpg beside this file';" />
+            </div>
+            <p class="portal-caption">
+              Even across the distance, somehow you still feel close here.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="scene poetry-scene">
+      <div class="section-copy center reveal">
+        <p class="eyebrow">poesía y arte</p>
+        <h2>If I wrote you as a poem.</h2>
+        <p class="narrow center">
+          You feel like still water under moonlight.<br />
+          Like a sketch touched by patience.<br />
+          Like beauty that does not beg to be seen —<br />
+          and is unforgettable anyway.
+        </p>
+
+        <div class="sketch-altar soft-panel">
+          <svg class="sketch-paper" viewBox="0 0 360 260" role="img" aria-label="A moonlit sketch paper">
+            <path class="paper-outline" d="M56 24 C116 12, 246 14, 306 34 C322 88, 318 178, 298 232 C226 252, 126 250, 54 230 C34 160, 36 86, 56 24 Z" />
+            <path class="sketch-line" d="M78 178 C112 118, 154 98, 184 132 C212 100, 264 122, 282 178" />
+            <path class="sketch-line thin" d="M96 190 C138 166, 220 164, 266 190" />
+            <path class="sketch-line thin" d="M126 82 C150 58, 210 58, 238 84" />
+            <circle class="sketch-moon" cx="180" cy="82" r="24" />
+            <path class="sketch-root-line" d="M180 132 C176 160, 186 188, 178 224" />
+            <path class="sketch-root-line" d="M178 178 C144 196, 120 212, 98 232" />
+            <path class="sketch-root-line" d="M182 178 C220 198, 244 214, 270 232" />
+          </svg>
+
+          <p>
+            If I could draw what loving you feels like, I think the page would still fall short.
+            Some things are too alive to stay inside lines.
+          </p>
+
+          <button id="poemScrap" class="pill-btn poem-scrap-btn">Open a poem scrap</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene future-scene">
+      <div class="section-copy center reveal">
+        <p class="eyebrow">the list of tomorrows</p>
+        <h2>Things I want to do with you.</h2>
+        <p class="narrow center">
+          Not because time is short, but because every little dream with you feels worth naming.
+        </p>
+
+        <div class="future-list">
+          <div class="future-item">
+            <div class="future-mark">✦</div>
+            <p>Hold your hand without a screen between us and stay there longer than necessary just because I can.</p>
+          </div>
+
+          <div class="future-item">
+            <div class="future-mark">✦</div>
+            <p>Walk with you somewhere quiet and let the whole day feel unhurried.</p>
+          </div>
+
+          <div class="future-item">
+            <div class="future-mark">✦</div>
+            <p>Take pictures of you when you are not paying attention and keep them like tiny treasures.</p>
+          </div>
+
+          <div class="future-item">
+            <div class="future-mark">✦</div>
+            <p>Cook with you — whether it turns out beautiful or chaotic — and laugh through the mess.</p>
+          </div>
+
+          <div class="future-item">
+            <div class="future-mark">✦</div>
+            <p>Sit under the same sky and not have to miss you while I am looking right at you.</p>
+          </div>
+
+          <div class="future-item">
+            <div class="future-mark">✦</div>
+            <p>Kiss your forehead when words feel too small for what I am trying to say.</p>
+          </div>
+
+          <div class="future-item">
+            <div class="future-mark">✦</div>
+            <p>Build little traditions that only belong to us — our foods, our walks, our moments, our nonsense.</p>
+          </div>
+
+          <div class="future-item">
+            <div class="future-mark">✦</div>
+            <p>Watch you exist in real life and have the stupid happy realization that you are finally right there.</p>
+          </div>
+
+          <div class="future-item">
+            <div class="future-mark">✦</div>
+            <p>Learn the tiny real-life details I can only imagine right now — your habits, your little faces, the way you move through a day.</p>
+          </div>
+
+          <div class="future-item">
+            <div class="future-mark">✦</div>
+            <p>Make you feel safe in ordinary moments, not just loved in dramatic ones.</p>
+          </div>
+
+          <div class="future-item">
+            <div class="future-mark">✦</div>
+            <p>Start a collection of “remember when” stories that only make sense to us.</p>
+          </div>
+
+          <div class="future-item">
+            <div class="future-mark">✦</div>
+            <p>Have quiet mornings, sleepy laughs, long hugs, and days where distance is finally just an old enemy we defeated.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene scenery-scene scenery-bridge" aria-label="A bridge of warm lights">
+      <div class="bridge-line"></div>
+      <div class="bridge-light l1"></div>
+      <div class="bridge-light l2"></div>
+      <div class="bridge-light l3"></div>
+      <div class="bridge-light l4"></div>
+    </section>
+
+    <section class="scene thread-scene">
+      <div class="section-copy center reveal">
+        <p class="eyebrow">the silver thread</p>
+        <h2>Until distance loses.</h2>
+        <p class="narrow center">
+          The world calls it far. I call it temporary.
+          Every day, the thread between us gets shorter.
+        </p>
+
+        <div class="thread-stage">
+          <div class="thread-glow"></div>
+          <div class="thread-star-a"></div>
+          <div class="silver-thread"></div>
+          <div class="thread-star-b"></div>
+        </div>
+
+        <div class="countdown">
+          <div class="time-box">
+            <span id="days">0</span>
+            <small>days</small>
+          </div>
+          <div class="time-box">
+            <span id="hours">0</span>
+            <small>hours</small>
+          </div>
+          <div class="time-box">
+            <span id="minutes">0</span>
+            <small>minutes</small>
+          </div>
+          <div class="time-box">
+            <span id="seconds">0</span>
+            <small>seconds</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene scenery-scene scenery-deep" aria-label="The deep roots before the letter">
+      <div class="deep-root r1"></div>
+      <div class="deep-root r2"></div>
+      <div class="deep-root r3"></div>
+    </section>
+
+    <section class="scene letter-scene">
+      <div class="section-copy center reveal">
+        <p class="eyebrow">beneath the branches</p>
+        <h2>What the willow was trying to say.</h2>
+        <p class="narrow center">
+          There are things I could say quickly, but they deserve a quieter place.
+        </p>
+
+        <div class="letter-shell soft-panel">
+          <button id="letterBtn" class="pill-btn letter-open">Open the letter</button>
+
+          <div id="letterPaper" class="letter-paper">
+            <div class="pressed-lily">✧</div>
+
+            <p>Mi amor,</p>
+
+            <p>
+              Three months may sound small to the world, but to me it already holds so much.
+              It holds the conversations, the waiting, the smiles, the little moments that became important before I even realized they were changing me.
+            </p>
+
+            <p>
+              Loving you from far away has taught me something real: love does not need to be loud to be powerful.
+              Sometimes it grows quietly, like roots beneath water — hidden, patient, alive.
+            </p>
+
+            <p>
+              I think about the day I finally get to hold you, and it feels unreal in the best way.
+              Like all this distance, all this missing you, all this patience will finally become something I can touch.
+            </p>
+
+            <p>
+              You are not just someone I love.
+              You are someone I am growing toward.
+              And if this little realm means anything, let it mean this:
+              even from far away, I am choosing you with my whole heart.
+              Te elijo. Ahora y siempre.
+            </p>
+
+            <p class="signature">
+              Happy three months, my princess.<br />
+              I love you.<br />
+              — Jadon
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene vow-scene">
+      <div class="section-copy center reveal">
+        <p class="eyebrow">the vow chamber</p>
+        <h2>The ultimate vow.</h2>
+        <p class="narrow center">
+          Not perfection. Not fantasy. Just something honest, steady, and chosen.
+        </p>
+
+        <div class="vow-ring soft-panel">
+          <div class="vow-core">
+            <h3>I do not promise a perfect story.</h3>
+            <div class="vow-lines">
+              <div class="vow-line">I promise honesty, even when the truth is difficult.</div>
+              <div class="vow-line">I promise patience while distance is still trying to test us.</div>
+              <div class="vow-line">I promise effort, because what we have deserves more than convenience.</div>
+              <div class="vow-line">I promise to keep learning how to love you better, not just louder.</div>
+              <div class="vow-line">I promise that my heart will keep returning to you, on the easy days and the hard ones too.</div>
+              <div class="vow-line">Te elijo — not only in the beautiful moments, but in the waiting, the learning, and the becoming.</div>
+            </div>
+
+            <div class="vow-seal">
+              Beneath this willow, before the moon, I choose you with intention. Ahora y siempre.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene promise-scene">
+      <div class="section-copy center reveal">
+        <p class="eyebrow">sealed beneath the willow</p>
+        <h2>Pinky promise?</h2>
+        <p class="narrow center">
+          Across the distance, through every waiting day — let this be our little promise.
+        </p>
+
+        <div id="promiseStage" class="promise-stage soft-panel">
+          <div class="promise-hands" aria-hidden="true">
+            <div class="hand left"></div>
+            <div class="hand right"></div>
+            <div class="promise-thread"></div>
+            <div class="promise-pinky"></div>
+          </div>
+
+          <button id="promiseBtn" class="pill-btn">Seal the promise</button>
+          <div id="promiseMessage" class="promise-message">I choose you — softly, fully, and on purpose.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene stars-scene">
+      <div class="section-copy center reveal">
+        <p class="eyebrow">the unwritten stars</p>
+        <h2>Some stars are not memories yet.</h2>
+        <p class="narrow center">
+          Some dreams are too precious to say loudly.
+          So I placed them here, where only we would understand.
+        </p>
+
+        <div class="unwritten-sky soft-panel">
+          <div class="constellation-line"></div>
+
+          <button class="secret-star castiel" data-name="Castiel" data-message="a small guardian light, waiting somewhere in tomorrow" aria-label="Castiel star">✦</button>
+          <button class="secret-star asterin" data-name="Asterin" data-message="a soft star-flower, still becoming" aria-label="Asterin star">✧</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene final-scene">
+      <div class="section-copy center reveal">
+        <p class="eyebrow">beyond the moon</p>
+        <h2>If love can become a place, then this is ours.</h2>
+
+        <div class="final-stage">
+          <div class="mini-aurora"></div>
+          <div class="moon-core"></div>
+
+          <div class="final-tree-wrap">
+            <div class="memory-crown"></div>
+            <div class="memory-trunk"></div>
+            <div class="memory-root mr1"></div>
+            <div class="memory-root mr2"></div>
+            <div class="memory-root mr3"></div>
+          </div>
+        </div>
+
+
+        <div class="root-heart-wrap glass" aria-hidden="true">
+          <svg class="root-heart-svg" viewBox="0 0 520 430">
+            <path class="heart-root glow" d="M260 28 C252 92, 236 132, 206 170 C166 220, 122 244, 112 292 C104 334, 130 368, 176 368 C218 368, 242 340, 260 310 C278 340, 302 368, 344 368 C390 368, 416 334, 408 292 C398 244, 354 220, 314 170 C284 132, 268 92, 260 28" />
+            <path class="heart-root primary" d="M260 28 C252 92, 236 132, 206 170 C166 220, 122 244, 112 292 C104 334, 130 368, 176 368 C218 368, 242 340, 260 310 C278 340, 302 368, 344 368 C390 368, 416 334, 408 292 C398 244, 354 220, 314 170 C284 132, 268 92, 260 28" />
+            <path class="heart-root secondary" d="M260 54 C238 116, 206 158, 170 200 C142 232, 128 262, 124 298" />
+            <path class="heart-root secondary" d="M260 54 C282 116, 314 158, 350 200 C378 232, 392 262, 396 298" />
+            <path class="heart-root secondary" d="M260 190 C244 236, 218 278, 184 326" />
+            <path class="heart-root secondary" d="M260 190 C276 236, 302 278, 336 326" />
+            <g class="heart-light">
+              <circle cx="260" cy="310" r="20" />
+              <circle cx="260" cy="310" r="9" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="vow-ending">
+          <p>
+            Three months is not forever.
+            But with you, it already feels like the beginning of one.
+          </p>
+          <p>
+            I would find you beyond distance.<br />
+            Beyond waiting.<br />
+            Beyond the moon.<br />
+            Siempre tú.
+          </p>
+          <p class="final-whisper">
+            And when the world is loud, remember this place.
+            The willow will still be here. So will I.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="poemToast" class="toast">
+    Si pudiera dibujar mi amor por ti, even the moon would run out of light.
+  </div>
+
+  <div id="starToast" class="toast"></div>
+
+  <script>
+    const FIRST_HUG_DATE = new Date("2026-08-08T11:00:00-03:00");
+
+    const body = document.body;
+    const veil = document.getElementById("veil");
+    const enterBtn = document.getElementById("enterBtn");
+    const bgMusic = document.getElementById("bgMusic");
+    const musicToggle = document.getElementById("musicToggle");
+    const realmSigil = document.getElementById("realmSigil");
+    const poemToast = document.getElementById("poemToast");
+    const poemScrap = document.getElementById("poemScrap");
+    const rootSvg = document.getElementById("rootSvg");
+    const starToast = document.getElementById("starToast");
+    const letterBtn = document.getElementById("letterBtn");
+    const letterPaper = document.getElementById("letterPaper");
+    const promiseBtn = document.getElementById("promiseBtn");
+    const barkRune = document.getElementById("barkRune");
+    const promiseStage = document.getElementById("promiseStage");
+    const promiseMessage = document.getElementById("promiseMessage");
+    const starButtons = document.querySelectorAll(".secret-star");
+    const revealItems = document.querySelectorAll(".reveal");
+
+    let observer;
+
+    function showToast(element, html) {
+      if (html) {
+        element.innerHTML = html;
+      }
+
+      element.classList.add("show");
+      clearTimeout(element.hideTimer);
+
+      element.hideTimer = setTimeout(() => {
+        element.classList.remove("show");
+      }, 3600);
+    }
+
+    enterBtn.addEventListener("click", async () => {
+      veil.classList.add("opened");
+      body.classList.remove("locked");
+      musicToggle.classList.remove("hidden");
+      realmSigil.classList.remove("hidden");
+
+      try {
+        bgMusic.volume = 0.34;
+        await bgMusic.play();
+        musicToggle.textContent = "❚❚";
+      } catch (error) {
+        musicToggle.textContent = "♪";
+      }
+
+      setupObserver();
+      revealVisibleFallback();
+      beginAmbientLife();
+      updateRootProgress();
+    });
+
+    musicToggle.addEventListener("click", async () => {
+      if (bgMusic.paused) {
+        try {
+          await bgMusic.play();
+          musicToggle.textContent = "❚❚";
+        } catch (error) {
+          musicToggle.textContent = "♪";
+        }
+      } else {
+        bgMusic.pause();
+        musicToggle.textContent = "♪";
+      }
+    });
+
+    realmSigil.addEventListener("click", () => {
+      showToast(starToast, "The realm remembers every soft thing we are becoming.");
+    });
+
+    barkRune.addEventListener("click", () => {
+      showToast(starToast, "<strong>C + A</strong><br>some dreams are too precious to carve loudly");
+    });
+
+    poemScrap.addEventListener("click", () => {
+      showToast(poemToast);
+    });
+
+    letterBtn.addEventListener("click", () => {
+      letterPaper.classList.add("show");
+      letterBtn.classList.add("hidden");
+    });
+
+    promiseBtn.addEventListener("click", () => {
+      promiseStage.classList.add("sealed");
+      promiseBtn.classList.add("hidden");
+      promiseMessage.textContent = "Sealed beneath the willow. Remembered beyond the moon.";
+      burstPromise();
+      pourMoonPetals();
+    });
+
+    starButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const name = button.dataset.name;
+        const message = button.dataset.message;
+        showToast(starToast, `<strong>${name}</strong><br>${message}`);
+      });
+    });
+
+
+    let ambientStarted = false;
+
+
+    function updateRootProgress() {
+      if (!rootSvg) {
+        return;
+      }
+
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollable <= 0 ? 0 : window.scrollY / scrollable;
+      rootSvg.style.setProperty("--root-progress", Math.min(1, Math.max(0, progress * 1.18)).toFixed(3));
+    }
+
+
+    function beginAmbientLife() {
+      if (ambientStarted) {
+        return;
+      }
+
+      ambientStarted = true;
+
+      setInterval(() => {
+        if (!document.hidden) {
+          createFallingLeaf();
+        }
+      }, 1350);
+
+      setInterval(() => {
+        if (!document.hidden) {
+          createFirefly();
+        }
+      }, 1850);
+    }
+
+    function createFallingLeaf() {
+      const leaf = document.createElement("div");
+      leaf.className = "falling-leaf";
+      leaf.style.left = Math.random() * 100 + "vw";
+      leaf.style.setProperty("--drift", (Math.random() * 120 - 60) + "px");
+      leaf.style.animationDuration = (7 + Math.random() * 5) + "s";
+      leaf.style.opacity = 0.35 + Math.random() * 0.45;
+      document.body.appendChild(leaf);
+
+      setTimeout(() => {
+        leaf.remove();
+      }, 13000);
+    }
+
+    function createFirefly() {
+      const firefly = document.createElement("div");
+      firefly.className = "realm-firefly";
+      firefly.style.left = Math.random() * 100 + "vw";
+      firefly.style.top = (30 + Math.random() * 62) + "vh";
+      firefly.style.setProperty("--x", (Math.random() * 120 - 60) + "px");
+      firefly.style.setProperty("--y", (Math.random() * -120 - 40) + "px");
+      firefly.style.animationDuration = (3.8 + Math.random() * 3.6) + "s";
+      document.body.appendChild(firefly);
+
+      setTimeout(() => {
+        firefly.remove();
+      }, 8000);
+    }
+
+    function burstPromise() {
+      const symbols = ["✦", "✧", "♡", "☾", "✨"];
+
+      for (let i = 0; i < 46; i++) {
+        const spark = document.createElement("div");
+        spark.className = "promise-spark";
+        spark.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 80 + Math.random() * 150;
+        spark.style.setProperty("--x", Math.cos(angle) * distance + "px");
+        spark.style.setProperty("--y", Math.sin(angle) * distance + "px");
+        document.body.appendChild(spark);
+
+        setTimeout(() => {
+          spark.remove();
+        }, 1800);
+      }
+    }
+
+    function pourMoonPetals() {
+      for (let i = 0; i < 34; i++) {
+        setTimeout(() => {
+          const petal = document.createElement("div");
+          petal.className = "moon-petal";
+          petal.textContent = i % 3 === 0 ? "✧" : "♡";
+          petal.style.left = Math.random() * 100 + "vw";
+          petal.style.setProperty("--drift", (Math.random() * 160 - 80) + "px");
+          petal.style.animationDuration = (5 + Math.random() * 4) + "s";
+          document.body.appendChild(petal);
+
+          setTimeout(() => {
+            petal.remove();
+          }, 10000);
+        }, i * 65);
+      }
+    }
+
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = FIRST_HUG_DATE - now;
+
+      const daysEl = document.getElementById("days");
+      const hoursEl = document.getElementById("hours");
+      const minutesEl = document.getElementById("minutes");
+      const secondsEl = document.getElementById("seconds");
+
+      if (!daysEl || !hoursEl || !minutesEl || !secondsEl) {
+        return;
+      }
+
+      if (diff <= 0) {
+        daysEl.textContent = "0";
+        hoursEl.textContent = "0";
+        minutesEl.textContent = "0";
+        secondsEl.textContent = "0";
+        return;
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      daysEl.textContent = days;
+      hoursEl.textContent = hours;
+      minutesEl.textContent = minutes;
+      secondsEl.textContent = seconds;
+    }
+
+    function setupObserver() {
+      if (observer) {
+        return;
+      }
+
+      if ("IntersectionObserver" in window) {
+        observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("show");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.12,
+          rootMargin: "0px 0px -60px 0px"
+        });
+
+        revealItems.forEach((item) => observer.observe(item));
+      } else {
+        revealVisibleFallback();
+        window.addEventListener("scroll", revealVisibleFallback, { passive: true });
+      }
+    }
+
+    function revealVisibleFallback() {
+      revealItems.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 80) {
+          item.classList.add("show");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", updateRootProgress, { passive: true });
+
+    window.addEventListener("load", () => {
+      setupObserver();
+      updateCountdown();
+      revealVisibleFallback();
+      updateRootProgress();
+    });
+
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
